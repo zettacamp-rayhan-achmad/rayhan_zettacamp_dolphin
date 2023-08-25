@@ -1,0 +1,229 @@
+* {
+   padding: 0;
+   margin: 0;
+}
+
+body {
+   background-color: #fff;
+   /* padding-top: 1.5rem; */
+}
+
+h1 {
+   font-size: 14px;
+   color: #424242;
+   font-size: 20px;
+   margin: 15px auto;
+   text-align: center;
+   position: absolute;
+   left: 100px;
+}
+
+a {
+   text-decoration: none;
+}
+
+header ul {
+   text-align: center;
+   margin-top: 10px;
+   /* margin: 15px auto; */
+   /* padding-top: 5px; */
+}
+
+header li {
+   display: inline;
+   text-decoration: none;
+   margin-left: 25px;
+   font-weight: bold;
+}
+
+header li a {
+   color: #424242;
+}
+
+header li a:hover {
+   color: #424242;
+}
+
+.kotak {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   align-content: space-evenly;
+   height: 70rem;
+   width: 800px;
+   margin: 0 auto;
+}
+
+span:first-child {
+   color: blue;
+}
+
+.search {
+   padding: 10px;
+   border-radius: 5px;
+}
+
+/* -------------------------- */
+.no-border {
+   border: none;
+}
+
+.no-background {
+   background: none;
+}
+
+.btn-beli {
+   color: rgb(255, 255, 255);
+   background-color: rgb(12, 95, 189);
+   padding: 7px 0;
+   z-index: -99;
+   border: none;
+   width: 100%;
+   border-radius: 8px;
+   text-align: center;
+}
+
+.btn-beli:hover {
+   background-color: rgba(12, 95, 189, 0.9);
+   cursor: pointer;
+}
+
+.kotak>.col-produk2 {
+   width: 2.5in;
+   height: 3.6in;
+   display: inline-block;
+   box-sizing: border-box;
+   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+   border-radius: 2mm;
+}
+
+.kotak>.col-produk2 figure {
+   width: 100%;
+   height: 160px;
+   border: 0px solid rgb(201, 201, 201);
+   margin: 10px auto;
+   box-sizing: border-box;
+}
+
+.kotak>.col-produk2 img {
+   width: 100%;
+}
+
+.col-produk2:hover {
+   box-sizing: border-box;
+   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.43) 0px 7px 9px;
+}
+
+.isi {
+   padding: 10px 5px 0 5px;
+   margin-top: 50px;
+   /* box-sizing: border-box; */
+}
+
+.nama {
+   color: rgb(83, 83, 83);
+   font-size: 11pt;
+   font-weight: bold;
+   margin-top: 25px;
+   line-height: 0px;
+   height: 20px;
+}
+
+.harga {
+   font-weight: bold;
+   font-size: 17px;
+   font-weight: bold;
+   color: #424242;
+   height: 30px;
+}
+
+section {
+   width: 65%;
+   margin: 20px auto 0px auto;
+}
+
+.judul {
+   font-weight: 600;
+}
+
+footer {
+   width: 100%;
+   height: 100px;
+   background-color: rgb(37, 37, 37);
+}
+
+footer p {
+   text-align: center;
+   color: rgba(255, 255, 255, 0.8);
+   font-size: 12px;
+   margin: 40px;
+   padding-top: 40px;
+}
+
+.bayangan-header {
+   width: 85%;
+   margin: 0 auto;
+   display: flex;
+   box-sizing: border-box;
+}
+
+.mb-1 {
+   margin-bottom: 1rem;
+}
+
+.pt-1 {
+   padding-top: 1rem;
+}
+
+header {
+   top: 0;
+   display: flex;
+   width: 99vw;
+   height: 10vh;
+   background-color: rgba(255, 255, 255, 1);
+   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.1) 0px 7px 9px;
+   background-size: cover;
+}
+
+table,
+tr,
+th,
+td {
+   border: solid black;
+   border-collapse: collapse;
+}
+
+img {
+   width: 150px;
+}
+
+.breadcum {
+   width: 85%;
+   margin: 20px auto 0px auto;
+   color: grey;
+   font-weight: bold;
+}
+
+.breadcum li {
+   list-style: none;
+}
+
+.page {
+   margin-top: 20px;
+}
+
+.page table,
+tr,
+th,
+td {
+   padding: 10px;
+   background-color: steelblue;
+   color: white;
+   border: 2px solid white;
+}
+
+@media screen {
+   .page {
+      margin-top: 1px;
+   }
+}
