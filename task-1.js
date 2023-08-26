@@ -35,7 +35,7 @@ function displayBookPurchased(
    console.log('Is tax greater than discount:', discountAndTax);
    console.log('------------------------------------');
 }
-// function credit term
+// function credit terms
 function determineCreditTerms(totalPrice, terms) {
    const duePerTerm = totalPrice / terms;
    const currentDate = new Date();
