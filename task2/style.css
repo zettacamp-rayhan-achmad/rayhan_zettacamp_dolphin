@@ -1,0 +1,98 @@
+* {
+  padding: 0;
+  margin: 0;
+  color: #000;
+  font-family: monospace;
+}
+
+body {
+  background: url(../task1/assets/443.png);
+}
+
+table {
+  padding: 10px;
+}
+
+.container {
+  margin: 0 auto;
+}
+
+.task-title {
+  text-align: center;
+}
+
+.card {
+  border-radius: 8px;
+  background-color: white;
+  border: 2px solid darkviolet;
+}
+
+.card:hover {
+  background-color: beige;
+}
+
+figcaption {
+  font-size: 18px;
+  padding: 0 0 10px 0;
+}
+
+.container td {
+  padding: 10px;
+}
+
+.gb {
+  height: 160px;
+  border-radius: 8px;
+  margin-bottom: 5px;
+}
+
+header {
+  text-align: center;
+}
+
+a:hover {
+  color: aqua;
+}
+
+header .title {
+  font-size: 26px;
+  margin-top: 20px;
+  color: white;
+}
+
+.desc p {
+  margin: 20px 50px;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+}
+
+.td-1 {
+  background-color: green;
+  color: white;
+}
+
+.td-2 {
+  background-color: red;
+  color: white;
+}
+
+.td-3 {
+  background-color: blue;
+  color: white;
+}
+
+footer {
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+
+footer p,
+footer a {
+  color: white;
+  text-decoration: none;
+}
+
+.footor td {
+  padding: 0 10px;
+}
