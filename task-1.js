@@ -47,7 +47,6 @@ function determineCreditTerms(totalPrice, terms) {
       creditTerms.push({
          term: i + 1,
          due: dueDate.toISOString().split('T')[0],
-         // amountDue: duePerTerm,
       });
    }
 
@@ -58,7 +57,6 @@ function determineCreditTerms(totalPrice, terms) {
       console.log('------------------------------------');
       console.log(`Term: ${book.term}`);
       console.log(`Due: ${book.due}`);
-      // console.log(`Amount Must Pay: Rp ${book.amountDue}`);
    }
 }
 // function purchasing books
