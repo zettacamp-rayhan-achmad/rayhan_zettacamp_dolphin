@@ -57,6 +57,7 @@ function determineCreditTerms(totalPrice, terms) {
       console.log('------------------------------------');
       console.log(`Term: ${book.term}`);
       console.log(`Due: ${book.due}`);
+      console.log(`Due: ${duePerTerm}`);
    }
 }
 // function purchasing books
