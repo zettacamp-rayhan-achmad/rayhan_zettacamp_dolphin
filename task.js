@@ -62,7 +62,7 @@ function groupSongsByGenre(songs) {
 
 // Create a function to group songs less than 1 hour with random artists & genres
 function groupSongsUnderOneHour(songs) {
-   const MAX_DURATION = 1330; // 1 hour = 3600 second
+   const MAX_DURATION = 3600; // 1 hour = 3600 second
    const oneHour = [];
    for (let xx = 0; xx < MAX_DURATION; xx++) {
       const getRandomSong = Math.floor(Math.random() * songs.length);
@@ -77,31 +77,29 @@ function groupSongsUnderOneHour(songs) {
          break;
       }
    }
-   const oneHourTitle = oneHour.map((songs) => songs.title);
+   //  const oneHourTitle = oneHour.map((songs) => songs.title);
    return oneHour;
 }
 
 // Group songs by artist
 const songsGroupedByArtist = groupSongsByArtist(songList);
-console.log('** Songs Grouped by Artist:', songsGroupedByArtist);
+console.log('---------------------------------------');
+console.log('**          Group By Artist          **');
+console.log('---------------------------------------');
+console.log(songsGroupedByArtist);
 
 // Group songs by genre
 const songsGroupedByGenre = groupSongsByGenre(songList);
-console.log('** Songs Grouped by Genre:', songsGroupedByGenre);
+console.log('---------------------------------------');
+console.log('**          Group By Genre           **');
+console.log('---------------------------------------');
+console.log(songsGroupedByGenre);
 
 // Group songs under 1 hour by random artists & genres
 const songsUnderOneHour = groupSongsUnderOneHour(songList);
-console.log(songsUnderOneHour);
+console.log('---------------------------------------');
+console.log('**        1 Hour Random Song         **');
+console.log('---------------------------------------');
 songsUnderOneHour.forEach(function (element) {
-   console.log(element);
+   console.log(`* ${element.title} | ${element.genre} |`, element.duration);
 });
-// console.log('** Random song you can listen on 1 hour **');
-// for (let songs of songsUnderOneHour) {
-//    console.log(songs);
-// }
-// const calculateOneHour = songsUnderOneHour.reduce(
-//    (accumulator, currentDuration) => {
-//       return accumulator + currentDuration.duration;
-//    }
-// );
-// console.log(`total duration ${calculateOneHour}`);
