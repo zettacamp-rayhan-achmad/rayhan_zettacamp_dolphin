@@ -14,5 +14,22 @@ console.log(majorityElement([2, 2, 1, 1, 1, 2, 2])); // Output: 2
  * @return {number} Returns the majority element.
  */
 function majorityElement(nums) {
-   // Your logic here
+   let count = 0;
+   let element = null;
+
+   for (const num of nums) {
+      if (count === 0) {
+         element = num;
+         count = 1;
+      } else if (num === element) {
+         count++;
+      } else {
+         count--;
+      }
+   }
+
+   return element;
 }
+
+console.log(majorityElement([3, 2, 3]));
+console.log(majorityElement([2, 2, 1, 1, 1, 2, 2, 2]));

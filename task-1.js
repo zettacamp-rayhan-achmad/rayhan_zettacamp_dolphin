@@ -47,7 +47,6 @@ function determineCreditTerms(totalPrice, terms) {
       creditTerms.push({
          term: i + 1,
          due: dueDate.toISOString().split('T')[0],
-         amountDue: duePerTerm,
       });
    }
 
@@ -58,11 +57,17 @@ function determineCreditTerms(totalPrice, terms) {
       console.log('------------------------------------');
       console.log(`Term: ${book.term}`);
       console.log(`Due: ${book.due}`);
-      console.log(`Amount Must Pay: Rp ${book.amountDue}`);
    }
 }
 // function purchasing books
-function purchaseBooks(bookDetail, discount, tax, amountStock, purchasedBook) {
+function purchaseBooks(
+   bookDetail,
+   discount,
+   tax,
+   amountStock,
+   purchasedBook,
+   terms
+) {
    let discountAmount = (discount / 100) * parseInt(bookDetail.price);
    let priceAfterDiscount = parseInt(bookDetail.price - discountAmount);
    let taxAmount = parseInt((tax / 100) * priceAfterDiscount);
@@ -165,7 +170,7 @@ const discount = 10;
 const tax = 5;
 const amountStock = 5;
 const purchasedBook = 4;
-const terms = 1;
+const terms = 2;
 
 // Run Function and Display Purchase
 console.log('-------------------------------------');
@@ -174,4 +179,4 @@ console.log('-------------------------------------');
 for (let book of bookTitle) {
    console.log(book);
 }
-purchaseBooks(bookDetail[0], discount, tax, amountStock, purchasedBook);
+purchaseBooks(bookDetail[0], discount, tax, amountStock, purchasedBook, terms);
