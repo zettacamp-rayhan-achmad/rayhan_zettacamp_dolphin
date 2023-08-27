@@ -62,19 +62,36 @@ function groupSongsByGenre(songs) {
 
 // Step 4: Create a function to group songs less than 1 hour with random artists & genres
 function groupSongsUnderOneHour(songs) {
-   const MAX_DURATION = 3600; // 1 hour in seconds
-   const groupedSongs = {};
-
-   for(let songHour of songs) {
-      if (!groupedSongs[song.artist]) {
-         groupedSongs[song.artist] = [];
+   const MAX_DURATION = 600; // 1 hour in seconds
+   const allDuration = songs.map((songs) => songs.duration);
+   const oneHour = [];
+   console.log(allDuration);
+   const smallestNumber = Math.min(...allDuration);
+   //  console.log(oneHour);
+   for (let songHour of songs) {
+      const calculateTime = oneHour.reduce((accumulator, currentDuration) => {
+         return accumulator + currentDuration;
+      }, 0); // Nilai awal akumulator adalah 0
+      if (smallestNumber > MAX_DURATION) {
+         //  oneHour.push(smallestNumber);
+         break;
       }
-      if (song.duration <= MAX_DURATION) {
-         groupedSongs[song.artist].push(song);
+      if (
+         smallestNumber < MAX_DURATION &&
+         calculateTime <= MAX_DURATION &&
+         oneHour.has(smallestNumber)
+      ) {
+         oneHour.push(smallestNumber);
+      } else if (calculateTime <= MAX_DURATION) {
+         oneHour.push(songHour.duration);
+      } else if (calculateTime > MAX_DURATION) {
+         break;
       }
-   });
-
-   return groupedSongs;
+      // oneHour.push(songHour.duration);
+      console.log('song :', calculateTime);
+      console.log('one hour: ', oneHour);
+   }
+   return oneHour;
 }
 
 // Group songs by artist
