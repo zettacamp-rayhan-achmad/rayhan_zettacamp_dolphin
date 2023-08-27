@@ -10,3 +10,6 @@ Update your book purchasing function to determine how many term of credit to pur
 
 Note:
 Only determine the due for each term of payment, start with next month from this current month when do you work on this code
+
+Logic Test:
+Contain Duplicate
