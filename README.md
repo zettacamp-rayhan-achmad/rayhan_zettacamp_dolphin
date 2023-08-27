@@ -4,7 +4,7 @@
 
 **Position:** Back-End
 
-# task Day 5 of JavaScript
+## task Day 5 of JavaScript
 
 Update your book purchasing function to determine how many term of credit to purchase a book and displayed it as array of object
 
