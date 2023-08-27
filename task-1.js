@@ -1,13 +1,12 @@
 // function display book detail
-function displayBookDetail() {
+function displayBookDetail(bookDetail) {
    console.log('-------------------------------------');
-   console.log('-**         BOOK DETAILS          **-');
+   console.log('**         BOOK PURCHASED          **');
    console.log('-------------------------------------');
    console.log('Book Title:', bookDetail.title);
    console.log('Price: Rp ', parseInt(bookDetail.price));
    console.log('Author: ', bookDetail.author);
-   console.log('Stock:', amountStock);
-   console.log('-------------------------------------');
+   console.log('Previously Stock:', amountStock);
    return;
 }
 // function display book purchasing
@@ -22,8 +21,6 @@ function displayBookPurchased(
    availableStock,
    discountAndTax
 ) {
-   console.log('            Book Purchased           ');
-   console.log('-------------------------------------');
    console.log('discount:', discount, '%');
    console.log('Amount of discount: Rp', discountAmount);
    console.log('Price after discount: Rp ', priceAfterDiscount);
@@ -57,12 +54,11 @@ function determineCreditTerms(totalPrice, terms) {
    //  return creditTerms;
    console.log('------------------------------------');
    console.log('**        Credit Simulation       **');
-   for (let i = 0; i < creditTerms.length; i++) {
-      const book = creditTerms[i];
+   for (const book of creditTerms) {
       console.log('------------------------------------');
       console.log(`Term: ${book.term}`);
       console.log(`Due: ${book.due}`);
-      console.log(`Amout Must Pay: ${book.amountDue}`);
+      console.log(`Amount Must Pay: Rp ${book.amountDue}`);
    }
 }
 // function purchasing books
@@ -79,7 +75,7 @@ function purchaseBooks(bookDetail, discount, tax, amountStock, purchasedBook) {
 
    for (let i = 1; i <= purchasedBook; i++) {
       if (availableStock === 0) {
-         displayBookDetail();
+         displayBookDetail(bookDetail);
          displayBookPurchased(
             discountAmount,
             priceAfterDiscount,
@@ -101,7 +97,7 @@ function purchaseBooks(bookDetail, discount, tax, amountStock, purchasedBook) {
 
       if (i === purchasedBook) {
          if (availableStock > 0) {
-            displayBookDetail();
+            displayBookDetail(bookDetail);
             displayBookPurchased(
                discountAmount,
                priceAfterDiscount,
@@ -117,7 +113,7 @@ function purchaseBooks(bookDetail, discount, tax, amountStock, purchasedBook) {
                `Purchased ${purchasedBook} books. ${availableStock} books can still be purchased.`
             );
          } else {
-            displayBookDetail();
+            displayBookDetail(bookDetail);
             displayBookPurchased(
                discountAmount,
                priceAfterDiscount,
@@ -144,18 +140,38 @@ function purchaseBooks(bookDetail, discount, tax, amountStock, purchasedBook) {
    determineCreditTerms(totalPrice, terms);
 }
 
-function book(title, price, author) {
-   this.title = title;
-   this.price = price;
-   this.author = author;
-   return;
+let bookDetail = [
+   {
+      title: 'The Lord of The Rings',
+      author: 'J.R.R. Tolkien',
+      price: 71000,
+   },
+   {
+      title: 'The Hunger Games',
+      author: 'Suzanne Collins',
+      price: 82000,
+   },
+   {
+      title: 'The Alchemist',
+      author: 'Paulo Coelho',
+      price: 65000,
+   },
+];
+
+const bookTitle = bookDetail.map((book) => book.title);
+
+// initial
+const discount = 10;
+const tax = 5;
+const amountStock = 5;
+const purchasedBook = 4;
+const terms = 1;
+
+// Run Function and Display Purchase
+console.log('-------------------------------------');
+console.log('**            All Books            **');
+console.log('-------------------------------------');
+for (let book of bookTitle) {
+   console.log(book);
 }
-
-let bookDetail = new book('Naruto Shippuden', 14000, 'Masashi Kisimoto');
-
-const discount = 10; // 10% discount
-const tax = 5; // 5% tax
-const amountStock = 4; // Initial stock of books
-const purchasedBook = 4; // Number of books to be purchased
-const terms = 2;
-purchaseBooks(bookDetail, discount, tax, amountStock, purchasedBook);
+purchaseBooks(bookDetail[0], discount, tax, amountStock, purchasedBook);
