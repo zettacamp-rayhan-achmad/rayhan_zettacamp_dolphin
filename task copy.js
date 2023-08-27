@@ -62,17 +62,15 @@ function groupSongsByGenre(songs) {
 
 // Step 4: Create a function to group songs less than 1 hour with random artists & genres
 function groupSongsUnderOneHour(songs) {
-   const MAX_DURATION = 1330; // 1 hour in seconds
-   // const allDuration = songs.map((songs) => songs.duration);
+   const MAX_DURATION = 5200; // 1 hour in seconds
+   const allDuration = songs.map((songs) => songs.duration);
    const oneHour = [];
    for (let xx = 0; xx < MAX_DURATION; xx++) {
-      const getRandomSong = Math.floor(Math.random() * songs.length);
-      const randomSong = songs[getRandomSong];
+      const getRandomSong = Math.floor(Math.random() * allDuration.length);
+      const randomSong = allDuration[getRandomSong];
       const calculateTime = oneHour.reduce((accumulator, currentDuration) => {
-         return accumulator + currentDuration.duration;
-      }, randomSong.duration); // Nilai awal akumulator
-      // console.log('ini calc:', calculateTime);
-      // console.log('ini random:', randomSong);
+         return accumulator + currentDuration;
+      }, randomSong); // Nilai awal akumulator
       if (MAX_DURATION > calculateTime) {
          oneHour.push(randomSong);
       }
@@ -80,7 +78,6 @@ function groupSongsUnderOneHour(songs) {
          break;
       }
    }
-   console.log('ini one hour:', oneHour);
    return oneHour;
 }
 
