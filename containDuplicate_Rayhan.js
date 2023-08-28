@@ -15,10 +15,9 @@ console.log(containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2])); // Output: true
  */
 function containDuplicate(nums) {
    const numSet = [];
-
    for (const num of nums) {
       if (numSet[num]) {
-         // console.log(numSet);
+         console.log(numSet[num]);
          return true;
       }
       numSet.push(num);
@@ -26,6 +25,7 @@ function containDuplicate(nums) {
 
    return false;
 }
-console.log(containDuplicate([1, 2, 3, 1]));
-console.log(containDuplicate([1, 2, 3, 4]));
+console.log(containDuplicate([1, 2, 3, 1])); //true
+console.log(containDuplicate([1, 2, 3, 4])); //false
 console.log(containDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2]));
+console.log(containDuplicate([3, 4, 3])); //true

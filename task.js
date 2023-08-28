@@ -172,7 +172,7 @@ const discount = 10;
 const tax = 5;
 const amountStock = 5;
 const purchasedBook = 4;
-const terms = 6;
+const terms = 2;
 
 // Run Function and Display Purchase
 console.log('-------------------------------------');
@@ -182,4 +182,4 @@ for (const book of bookTitle) {
    console.log(book);
 }
 
-purchaseBooks(bookDetail[1], discount, tax, amountStock, purchasedBook, terms);
+purchaseBooks(bookDetail[2], discount, tax, amountStock, purchasedBook, terms);
