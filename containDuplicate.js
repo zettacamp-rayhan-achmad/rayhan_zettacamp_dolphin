@@ -14,16 +14,18 @@ console.log(containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2])); // Output: true
  * @return {boolean} Returns true if the array contains any duplicate value, false otherwise.
  */
 function containDuplicate(nums) {
-   const numSet = new Set();
+   const numSet = [];
 
    for (const num of nums) {
-      if (numSet.has(num)) {
-         return true; // Found a duplicate
+      if (numSet[num]) {
+         // console.log(numSet);
+         return true;
       }
-      numSet.add(num);
+      numSet.push(num);
    }
 
-   return false; // No duplicates found
+   return false;
 }
-console.log(containDuplicate([1, 2, 3, 3, 2]));
-console.log(containDuplicate([1, 2, 3, 4, 5]));
+console.log(containDuplicate([1, 2, 3, 1]));
+console.log(containDuplicate([1, 2, 3, 4]));
+console.log(containDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2]));

@@ -34,9 +34,6 @@ function displayBookPurchased(
 }
 // function credit terms
 function determineCreditTerms(terms) {
-   // const nextMonth = new Date(currentDate);
-   // nextMonth.setMonth(currentDate.getMonth() + 1);
-
    const currentDate = new Date();
    let creditTerms = [];
    for (let i = 0; i < terms; i++) {
@@ -48,15 +45,21 @@ function determineCreditTerms(terms) {
          due: currentDate.toISOString().split('T')[0],
       });
    }
-
    //  return creditTerms;
-   console.log('------------------------------------');
-   console.log('**        Credit Simulation       **');
-   for (const book of creditTerms) {
-      console.log('------------------------------------');
-      console.log(`Term: ${book.term}`);
-      console.log(`Due: ${book.due}`);
-   }
+   console.log('---------------------------------------');
+   console.log('**         Credit Simulation         **');
+   console.log(`pay a credit each 30 days until ${terms} month`);
+
+   creditTerms.forEach(function (dueDate) {
+      console.log('---------------------------------------');
+      console.log(`Term: ${dueDate.term}`);
+      console.log(`Due: ${dueDate.due}`);
+   });
+   const lastValue = creditTerms.pop();
+   console.log(
+      '* deadline for paying off all credit payments |',
+      lastValue.due
+   );
 }
 // function purchasing books
 function purchaseBooks(
@@ -175,7 +178,8 @@ const terms = 6;
 console.log('-------------------------------------');
 console.log('**            All Books            **');
 console.log('-------------------------------------');
-bookTitle.forEach(function (book) {
+for (const book of bookTitle) {
    console.log(book);
-});
+}
+
 purchaseBooks(bookDetail[1], discount, tax, amountStock, purchasedBook, terms);
