@@ -38,13 +38,13 @@ function displayBookPurchased(
 function determineCreditTerms(totalPrice, terms) {
    const duePerTerm = totalPrice / terms;
    const currentDate = new Date();
-   const nextMonth = new Date(currentDate);
-   nextMonth.setMonth(currentDate.getMonth() + 1);
-
+   // const nextMonth = new Date(currentDate);
+   // nextMonth.setMonth(currentDate.getMonth() + 1);
    let creditTerms = [];
+
    for (let i = 0; i < terms; i++) {
-      const dueDate = new Date(nextMonth);
-      dueDate.setMonth(nextMonth.getMonth() + i);
+      const dueDate = new Date(currentDate);
+      dueDate.setDate(dueDate.getDate() + 30);
 
       creditTerms.push({
          term: i + 1,
@@ -175,7 +175,7 @@ let buyer = {
 
 // Object Spread Operator to combine book with buyer
 const books = bookDetail[1];
-fullDetail = { ...books, ...buyer };
+const fullDetail = { ...books, ...buyer };
 
 const { title, author, price } = bookDetail;
 const bookTitle = bookDetail.map((book) => book.title);
