@@ -14,3 +14,8 @@ Credit is due every month & displayed as array object
 
 Logic Test:
 Majority Element
+
+### Note
+
+* object destructuring
+* spread operator

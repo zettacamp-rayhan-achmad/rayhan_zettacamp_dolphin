@@ -1,11 +1,14 @@
 // function display book detail
-function displayBookDetail(bookDetail) {
+function displayBookDetail({ title, author, price, fullName, paymentMethod }) {
+   //destructuring function
    console.log('-------------------------------------');
    console.log('**         BOOK PURCHASED          **');
    console.log('-------------------------------------');
-   console.log('Book Title:', bookDetail.title);
-   console.log('Price: Rp ', parseInt(bookDetail.price));
-   console.log('Author: ', bookDetail.author);
+   console.log('Buyer Name:', fullName);
+   console.log('Payment Method:', paymentMethod);
+   console.log('Book Title:', title);
+   console.log('Price: Rp ', parseInt(price));
+   console.log('Author: ', author);
    console.log('Previously Stock:', amountStock);
    return;
 }
@@ -29,7 +32,6 @@ function displayBookPurchased(
    console.log('Price after Tax: Rp', priceAfterTax);
    console.log('Amount of Book Purchased:', purchasedBook);
    console.log('Remaining Stock:', availableStock);
-   console.log('Is tax greater than discount:', discountAndTax);
    console.log('------------------------------------');
 }
 // function credit terms
@@ -50,40 +52,39 @@ function determineCreditTerms(totalPrice, terms) {
          pay: duePerTerm,
       });
    }
-
    //  return creditTerms;
    console.log('------------------------------------');
    console.log('**        Credit Simulation       **');
-   for (const book of creditTerms) {
+   creditTerms.forEach(function (book) {
       console.log('------------------------------------');
       console.log(`Term: ${book.term}`);
       console.log(`Due: ${book.due}`);
       console.log(`Amout you must pay: Rp ${book.pay}`);
-   }
+   });
    return;
 }
 // function purchasing books
 function purchaseBooks(
-   bookDetail,
+   { title, author, price, fullName, paymentMethod },
    discount,
    tax,
    amountStock,
    purchasedBook,
    terms
 ) {
-   let discountAmount = (discount / 100) * parseInt(bookDetail.price);
-   let priceAfterDiscount = parseInt(bookDetail.price - discountAmount);
+   let discountAmount = (discount / 100) * parseInt(price);
+   let priceAfterDiscount = parseInt(price - discountAmount);
    let taxAmount = parseInt((tax / 100) * priceAfterDiscount);
    let priceAfterTax = priceAfterDiscount + taxAmount;
    let result = tax > discount ? true : false;
    let discountAndTax = result === true ? 'Yes' : 'No';
-   const bookPrice = bookDetail.price;
+   const bookPrice = price;
    let totalPrice = 0;
    let availableStock = amountStock;
 
    for (let i = 1; i <= purchasedBook; i++) {
       if (availableStock === 0) {
-         displayBookDetail(bookDetail);
+         displayBookDetail(fullDetail);
          displayBookPurchased(
             discountAmount,
             priceAfterDiscount,
@@ -105,7 +106,7 @@ function purchaseBooks(
 
       if (i === purchasedBook) {
          if (availableStock > 0) {
-            displayBookDetail(bookDetail);
+            displayBookDetail(fullDetail);
             displayBookPurchased(
                discountAmount,
                priceAfterDiscount,
@@ -121,7 +122,7 @@ function purchaseBooks(
                `Purchased ${purchasedBook} books. ${availableStock} books can still be purchased.`
             );
          } else {
-            displayBookDetail(bookDetail);
+            displayBookDetail(fullDetail);
             displayBookPurchased(
                discountAmount,
                priceAfterDiscount,
@@ -147,7 +148,7 @@ function purchaseBooks(
 
    determineCreditTerms(totalPrice, terms);
 }
-
+// Books Details
 let bookDetail = [
    {
       title: 'The Lord of The Rings',
@@ -166,6 +167,17 @@ let bookDetail = [
    },
 ];
 
+// Buyer detail
+let buyer = {
+   fullName: 'Ghazali Al Anchor',
+   paymentMethod: 'Shoppe Paylater',
+};
+
+// Object Spread Operator to combine book with buyer
+const books = bookDetail[1];
+fullDetail = { ...books, ...buyer };
+
+const { title, author, price } = bookDetail;
 const bookTitle = bookDetail.map((book) => book.title);
 
 // initial
@@ -182,4 +194,4 @@ console.log('-------------------------------------');
 for (let book of bookTitle) {
    console.log(book);
 }
-purchaseBooks(bookDetail[0], discount, tax, amountStock, purchasedBook, terms);
+purchaseBooks(fullDetail, discount, tax, amountStock, purchasedBook, terms);
