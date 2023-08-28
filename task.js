@@ -33,20 +33,19 @@ function displayBookPurchased(
    console.log('------------------------------------');
 }
 // function credit terms
-function determineCreditTerms(totalPrice, terms) {
-   const duePerTerm = totalPrice / terms;
-   const currentDate = new Date();
-   const nextMonth = new Date(currentDate);
-   nextMonth.setMonth(currentDate.getMonth() + 1);
+function determineCreditTerms(terms) {
+   // const nextMonth = new Date(currentDate);
+   // nextMonth.setMonth(currentDate.getMonth() + 1);
 
+   const currentDate = new Date();
    let creditTerms = [];
    for (let i = 0; i < terms; i++) {
-      const dueDate = new Date(nextMonth);
-      dueDate.setMonth(nextMonth.getMonth() + i);
+      // const dueDate = new Date(currentDate);
+      currentDate.setDate(currentDate.getDate() + 30);
 
       creditTerms.push({
          term: i + 1,
-         due: dueDate.toISOString().split('T')[0],
+         due: currentDate.toISOString().split('T')[0],
       });
    }
 
@@ -142,7 +141,7 @@ function purchaseBooks(
 
    console.log(`Total price: Rp ${totalPrice}`);
 
-   determineCreditTerms(totalPrice, terms);
+   determineCreditTerms(terms);
 }
 
 let bookDetail = [
@@ -170,13 +169,13 @@ const discount = 10;
 const tax = 5;
 const amountStock = 5;
 const purchasedBook = 4;
-const terms = 2;
+const terms = 6;
 
 // Run Function and Display Purchase
 console.log('-------------------------------------');
 console.log('**            All Books            **');
 console.log('-------------------------------------');
-for (let book of bookTitle) {
+bookTitle.forEach(function (book) {
    console.log(book);
-}
+});
 purchaseBooks(bookDetail[1], discount, tax, amountStock, purchasedBook, terms);
