@@ -37,13 +37,12 @@ function displayBookPurchased(
 // function credit terms
 function determineCreditTerms(totalPrice, terms) {
    const duePerTerm = totalPrice / terms;
-   const currentDate = new Date();
+   const dueDate = new Date();
    // const nextMonth = new Date(currentDate);
    // nextMonth.setMonth(currentDate.getMonth() + 1);
    let creditTerms = [];
 
    for (let i = 0; i < terms; i++) {
-      const dueDate = new Date(currentDate);
       dueDate.setDate(dueDate.getDate() + 30);
 
       creditTerms.push({
