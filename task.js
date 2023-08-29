@@ -1,11 +1,9 @@
 // function display book detail
-function displayBookDetail({ title, author, price, fullName, paymentMethod }) {
+function displayBookDetail({ title, author, price }) {
    //destructuring function
    console.log('-------------------------------------');
    console.log('**         BOOK PURCHASED          **');
    console.log('-------------------------------------');
-   console.log('Buyer Name:', fullName);
-   console.log('Payment Method:', paymentMethod);
    console.log('Book Title:', title);
    console.log('Price: Rp ', parseInt(price));
    console.log('Author: ', author);
@@ -38,33 +36,31 @@ function displayBookPurchased(
 function determineCreditTerms(totalPrice, terms) {
    const duePerTerm = totalPrice / terms;
    const dueDate = new Date();
-   // const nextMonth = new Date(currentDate);
-   // nextMonth.setMonth(currentDate.getMonth() + 1);
    let creditTerms = [];
 
    for (let i = 0; i < terms; i++) {
       dueDate.setDate(dueDate.getDate() + 30);
 
       creditTerms.push({
-         term: i + 1,
          due: dueDate.toISOString().split('T')[0],
          pay: duePerTerm,
       });
    }
-   //  return creditTerms;
+   // grouping payment
+   const payment = creditTerms.map((money) => money.pay);
+   const totalPayment = payment.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+   }, 0);
+   // console.log(creditTerms[0].pay);
    console.log('------------------------------------');
    console.log('**        Credit Simulation       **');
-   creditTerms.forEach(function (book) {
-      console.log('------------------------------------');
-      console.log(`Term: ${book.term}`);
-      console.log(`Due: ${book.due}`);
-      console.log(`Amout you must pay: Rp ${book.pay}`);
-   });
+   console.log(creditTerms);
+   console.log('total credit payment Rp', totalPayment);
    return;
 }
 // function purchasing books
 function purchaseBooks(
-   { title, author, price, fullName, paymentMethod },
+   { title, author, price },
    discount,
    tax,
    amountStock,
@@ -83,7 +79,7 @@ function purchaseBooks(
 
    for (let i = 1; i <= purchasedBook; i++) {
       if (availableStock === 0) {
-         displayBookDetail(fullDetail);
+         displayBookDetail(books);
          displayBookPurchased(
             discountAmount,
             priceAfterDiscount,
@@ -105,7 +101,7 @@ function purchaseBooks(
 
       if (i === purchasedBook) {
          if (availableStock > 0) {
-            displayBookDetail(fullDetail);
+            displayBookDetail(books);
             displayBookPurchased(
                discountAmount,
                priceAfterDiscount,
@@ -121,7 +117,7 @@ function purchaseBooks(
                `Purchased ${purchasedBook} books. ${availableStock} books can still be purchased.`
             );
          } else {
-            displayBookDetail(fullDetail);
+            displayBookDetail(books);
             displayBookPurchased(
                discountAmount,
                priceAfterDiscount,
@@ -165,26 +161,17 @@ let bookDetail = [
       price: 65000,
    },
 ];
-
-// Buyer detail
-let buyer = {
-   fullName: 'Ghazali Al Anchor',
-   paymentMethod: 'Shoppe Paylater',
-};
-
-// Object Spread Operator to combine book with buyer
-const books = bookDetail[1];
-const fullDetail = { ...books, ...buyer };
-
+// destructuring
 const { title, author, price } = bookDetail;
+const books = bookDetail[1];
 const bookTitle = bookDetail.map((book) => book.title);
 
 // initial
 const discount = 10;
 const tax = 5;
 const amountStock = 5;
-const purchasedBook = 4;
-const terms = 4;
+const purchasedBook = 2;
+const terms = 2;
 
 // Run Function and Display Purchase
 console.log('-------------------------------------');
@@ -193,4 +180,4 @@ console.log('-------------------------------------');
 for (let book of bookTitle) {
    console.log(book);
 }
-purchaseBooks(fullDetail, discount, tax, amountStock, purchasedBook, terms);
+purchaseBooks(books, discount, tax, amountStock, purchasedBook, terms);

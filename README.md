@@ -6,16 +6,14 @@
 
 ## task Day 6 of Javascript
 
-Update your book purchasing function to have a parameter term of credit. Then calculate the price for each term & display the result.
-
-Note:
-Calculate the term using array function
-Credit is due every month & displayed as array object
-
-Logic Test:
-Majority Element
+Based on the due date that was generated on JS Day 5, update the function to calculate the amount of payment for each month using array function. Then display the data as an array of objects that have values due date of payment and amount of payment, be careful the total amount of payment must be the same as total price of books purchased.
 
 ### Note
 
 * object destructuring
 * spread operator
+* array of object
+
+Spread operator (...) adalah fitur yang diperkenalkan dalam JavaScript yang memungkinkan Anda untuk "membuka" atau "menyebar" elemen-elemen dari array, objek, atau string dan menggabungkannya ke dalam tempat lain, seperti array, objek, atau argumen fungsi. Ini memudahkan penggabungan, salinan, atau manipulasi data dengan cara yang lebih ekspresif dan efisien.
+
+destructuring adalah mengekstrack
