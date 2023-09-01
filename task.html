@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Book Inventory</title>
+      <style>
+         table {
+            border-collapse: collapse;
+            width: 100%;
+            width: 60%;
+            margin: 0 auto;
+            margin-top: 10px;
+         }
+         th,
+         td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            font-size: 16px;
+         }
+         th {
+            background-color: skyblue;
+         }
+         .form {
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            margin-bottom: 20px;
+            width: 60%;
+         }
+         h1 {
+            text-align: center;
+            margin-bottom: 50px;
+         }
+         button {
+            padding: 5px;
+            cursor: pointer;
+         }
+         label {
+            margin-left: 20px;
+         }
+         .editBtn {
+            background-color: green;
+            color: white;
+         }
+         .deleteBtn {
+            background-color: red;
+            color: white;
+         }
+         .update {
+            background-color: green;
+            color: white;
+            text-align: center;
+            width: 100px;
+         }
+         .add {
+            background-color: blue;
+            color: white;
+            padding: 10px;
+            width: 100px;
+            margin-left: 10px;
+         }
+         input {
+            padding: 10px;
+            font-size: 16px;
+         }
+         .form-down {
+            background-color: blue;
+            color: white;
+            margin: 0 auto;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 17px;
+            padding: 10px;
+         }
+      </style>
+   </head>
+   <body>
+      <div class="form">
+         <button id="form-down" onclick="showAdd()" class="form-down">
+            Add Book
+         </button>
+      </div>
+      <div class="form" id="form">
+         <h1>Book Inventory</h1>
+         <form action="">
+            <label for="title">Title:</label>
+            <input type="text" id="title" />
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" />
+            <label for="author">Author:</label>
+            <input type="text" id="author" />
+            <label for="description">Description:</label>
+            <input type="text" id="description" />
+            <button onclick="addItem()" id="add" class="add">Save</button>
+            <button
+               class="update"
+               id="updateButton"
+               style="display: none"
+               onclick="saveEdit()"
+            >
+               Update
+            </button>
+         </form>
+      </div>
+      <table>
+         <thead>
+            <tr>
+               <th>Title</th>
+               <th>Amount</th>
+               <th>Author</th>
+               <th>Description</th>
+               <th class="action">Actions</th>
+            </tr>
+         </thead>
+         <tbody id="itemList">
+            <!-- Daftar item akan ditampilkan di sini -->
+         </tbody>
+      </table>
+
+      <script>
+         // Mendapatkan referensi ke elemen-elemen HTML yang dibutuhkan
+         const titleInput = document.getElementById('title');
+         const amountInput = document.getElementById('amount');
+         const authorInput = document.getElementById('author');
+         const descriptionInput = document.getElementById('description');
+         const itemList = document.getElementById('itemList');
+         const updateButton = document.getElementById('updateButton');
+         document.getElementById('form').style.display = 'none';
+
+         let editedIndex = null; // Menyimpan index item yang sedang diedit
+
+         // Membaca data dari Local Storage saat halaman dimuat
+         const items = JSON.parse(localStorage.getItem('items')) || [];
+
+         function showAdd() {
+            document.getElementById('form').style.display = 'inline';
+            document.getElementById('form-down').style.display = 'none';
+         }
+         // Fungsi untuk menampilkan daftar item
+         function renderItems() {
+            itemList.innerHTML = '';
+            items.forEach((item, index) => {
+               const row = document.createElement('tr');
+               row.innerHTML = `
+                  <td>${item.title}</td>
+                  <td>${item.amount}</td>
+                  <td>${item.author}</td>
+                  <td>${item.description}</td>
+                  <td>
+                     <button onclick="editItem(${index})" id="edit" class="editBtn">Edit</button>
+                     <button onclick="deleteItem(${index})" id="delete${index}" class="deleteBtn">Delete</button>
+                  </td>
+               `;
+               itemList.appendChild(row);
+            });
+         }
+
+         // Fungsi untuk menambahkan item baru
+         function addItem() {
+            const newItem = {
+               title: titleInput.value,
+               amount: amountInput.value,
+               author: authorInput.value,
+               description: descriptionInput.value,
+            };
+            items.push(newItem);
+            saveItemsToLocalStorage();
+            clearFormInputs();
+            renderItems();
+            document.getElementById('form').style.display = 'none';
+            document.getElementById('form-down').style.display = 'inline';
+         }
+
+         // Fungsi untuk mengedit item
+         function editItem(index) {
+            document.getElementById('form-down').style.display = 'none';
+            document.getElementById('form').style.display = 'inline';
+            titleInput.value = items[index].title;
+            amountInput.value = items[index].amount;
+            authorInput.value = items[index].author;
+            descriptionInput.value = items[index].description;
+            document.getElementById(`delete${index}`).style.display = 'none';
+            // document.getElementById('edit').style.display = 'none';
+            document.getElementById('add').style.display = 'none';
+            editedIndex = index;
+            document.getElementById('updateButton').style.display = 'inline';
+         }
+
+         // Fungsi untuk menyimpan perubahan edit
+         function saveEdit() {
+            if (editedIndex !== null) {
+               const editedItem = {
+                  title: titleInput.value,
+                  amount: amountInput.value,
+                  author: authorInput.value,
+                  description: descriptionInput.value,
+               };
+
+               items[editedIndex] = editedItem;
+               saveItemsToLocalStorage();
+               clearFormInputs();
+               updateButton.style.display = 'none';
+               editedIndex = null;
+               renderItems();
+               document.getElementById('add').style.display = 'inline';
+               document.getElementById(`delete${index}`).style.display =
+                  'inline';
+            }
+         }
+
+         // Fungsi untuk menghapus item
+         function deleteItem(index) {
+            items.splice(index, 1);
+            saveItemsToLocalStorage();
+            renderItems();
+         }
+
+         // Fungsi untuk menyimpan data ke Local Storage
+         function saveItemsToLocalStorage() {
+            localStorage.setItem('items', JSON.stringify(items));
+         }
+
+         // Fungsi untuk membersihkan input form
+         function clearFormInputs() {
+            titleInput.value = '';
+            amountInput.value = '';
+            authorInput.value = '';
+            descriptionInput.value = '';
+         }
+
+         // Menampilkan daftar item saat halaman dimuat
+         renderItems();
+      </script>
+   </body>
+</html>
