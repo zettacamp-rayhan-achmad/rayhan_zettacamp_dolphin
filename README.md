@@ -4,3 +4,5 @@
 
 **Position:** Back-End
 
+## task
+sequential thinking and critical thinking
