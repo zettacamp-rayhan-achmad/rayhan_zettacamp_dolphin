@@ -42,13 +42,14 @@ async function determineCreditTerms(totalPrice, terms) {
       dueDate.setDate(dueDate.getDate() + 30);
 
       creditTerms.push({
+         month: i + 1,
          due: dueDate.toISOString().split('T')[0],
          pay: duePerTerm,
       });
    }
 
    await new Promise((resolve) => {
-      setTimeout(resolve, 1000); // Simulate a 1-second delay
+      setTimeout(resolve, 500); // Simulate a 1-second delay
    });
 
    // grouping payment

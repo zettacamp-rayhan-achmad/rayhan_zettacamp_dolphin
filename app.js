@@ -21,6 +21,8 @@ app.post('/purchaseBook', async (req, res) => {
       const amountStock = req.body.amountStock;
       const purchasedBook = req.body.purchasedBook;
       const terms = req.body.terms;
+      let additionalPriceTermAtMonth = req.body.additionalPriceTermAtMonth;
+      const additionalPrice = req.body.additionalPrice;
 
       const newBook = purchaseBooks(
          books,
@@ -28,17 +30,30 @@ app.post('/purchaseBook', async (req, res) => {
          tax,
          amountStock,
          purchasedBook,
-         terms
+         terms,
+         additionalPrice
       );
 
-      const totalPrice = newBook.totalPrice;
-      const credit = await determineCreditTerms(totalPrice, terms);
+      additionalPriceTermAtMonth -= 1;
 
-      // const credit = determineCreditTerms();
-      res.status(200).json({
-         purchased: newBook,
-         credit: credit,
-      });
+      const totalPrice = newBook.totalPrice;
+      let credit = await determineCreditTerms(totalPrice, terms);
+      // const lengthTerms = credit.creditTerms.length;
+      if (
+         terms > additionalPriceTermAtMonth &&
+         additionalPriceTermAtMonth >= 0
+      ) {
+         credit.creditTerms[additionalPriceTermAtMonth].pay += additionalPrice;
+         credit.totalPayment += additionalPrice;
+         res.status(200).json({
+            purchased: newBook,
+            credit: credit,
+         });
+      } else {
+         res.status(200).json({
+            message: `nothing terms, additional price terms at month failed`,
+         });
+      }
    } catch (err) {
       res.status(400).json({
          message: err,
