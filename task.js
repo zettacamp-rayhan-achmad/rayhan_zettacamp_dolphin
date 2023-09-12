@@ -1,37 +1,3 @@
-// function display book detail
-function displayBookDetail({ title, author, price }) {
-   //destructuring function
-   console.log('-------------------------------------');
-   console.log('**         BOOK PURCHASED          **');
-   console.log('-------------------------------------');
-   console.log('Book Title:', title);
-   console.log('Price: Rp ', parseInt(price));
-   console.log('Author: ', author);
-   console.log('Previously Stock:', amountStock);
-   return { title, author, price, amountStock };
-}
-// function display book purchasing
-function displayBookPurchased(
-   discountAmount,
-   priceAfterDiscount,
-   taxAmount,
-   priceAfterTax,
-   priceAfterDiscount,
-   purchasedBook,
-   totalPrice,
-   availableStock,
-   discountAndTax
-) {
-   console.log('discount:', discount, '%');
-   console.log('Amount of discount: Rp', discountAmount);
-   console.log('Price after discount: Rp ', priceAfterDiscount);
-   console.log('Tax:', tax, '%');
-   console.log('Amount of Tax: Rp', taxAmount);
-   console.log('Price after Tax: Rp', priceAfterTax);
-   console.log('Amount of Book Purchased:', purchasedBook);
-   console.log('Remaining Stock:', availableStock);
-   console.log('------------------------------------');
-}
 // function credit terms
 async function determineCreditTerms(totalPrice, terms) {
    const duePerTerm = totalPrice / terms;
@@ -40,7 +6,6 @@ async function determineCreditTerms(totalPrice, terms) {
 
    for (let i = 0; i < terms; i++) {
       dueDate.setDate(dueDate.getDate() + 30);
-
       creditTerms.push({
          month: i + 1,
          due: dueDate.toISOString().split('T')[0],
@@ -49,7 +14,7 @@ async function determineCreditTerms(totalPrice, terms) {
    }
 
    await new Promise((resolve) => {
-      setTimeout(resolve, 500); // Simulate a 1-second delay
+      setTimeout(resolve, 5000);
    });
 
    // grouping payment
@@ -61,11 +26,10 @@ async function determineCreditTerms(totalPrice, terms) {
    console.log('------------------------------------');
    console.log('**        Credit Simulation       **');
    console.log(creditTerms);
-   console.log('total credit payment Rp', totalPayment);
    return { creditTerms, totalPayment };
 }
 // function purchasing books
-function purchaseBooks(
+async function purchaseBooks(
    { title, author, price },
    discount,
    tax,
@@ -83,20 +47,11 @@ function purchaseBooks(
    let totalPrice = 0;
    let availableStock = amountStock;
 
+   await new Promise((resolve) => {
+      setTimeout(resolve, 5000);
+   });
    for (let i = 1; i <= purchasedBook; i++) {
       if (availableStock === 0) {
-         displayBookDetail(books);
-         displayBookPurchased(
-            discountAmount,
-            priceAfterDiscount,
-            taxAmount,
-            priceAfterTax,
-            priceAfterDiscount,
-            purchasedBook,
-            totalPrice,
-            availableStock,
-            discountAndTax
-         );
          console.log(`Out of stock, only purchasing ${i - 1} books.`);
          console.log(`cannot buy book any more`);
          break;
@@ -107,33 +62,10 @@ function purchaseBooks(
 
       if (i === purchasedBook) {
          if (availableStock > 0) {
-            displayBookDetail(books);
-            displayBookPurchased(
-               discountAmount,
-               priceAfterDiscount,
-               taxAmount,
-               priceAfterTax,
-               priceAfterDiscount,
-               purchasedBook,
-               totalPrice,
-               availableStock,
-               discountAndTax
-            );
             console.log(
                `Purchased ${purchasedBook} books. ${availableStock} books can still be purchased.`
             );
          } else {
-            displayBookDetail(books);
-            displayBookPurchased(
-               discountAmount,
-               priceAfterDiscount,
-               taxAmount,
-               priceAfterTax,
-               purchasedBook,
-               totalPrice,
-               availableStock,
-               discountAndTax
-            );
             console.log(
                `Purchased all ${purchasedBook} books. you cannot buy book any more`
             );
@@ -144,9 +76,8 @@ function purchaseBooks(
    totalPrice -= totalPrice * (discount / 100);
    totalPrice += totalPrice * (tax / 100);
 
+   determineCreditTerms(totalPrice, terms);
    console.log(`Total price: Rp ${totalPrice}`);
-
-   const credit = determineCreditTerms(totalPrice, terms);
 
    return {
       title,
@@ -192,17 +123,8 @@ const amountStock = 5;
 const purchasedBook = 2;
 const terms = 4;
 
-// Run Function and Display Purchase
-console.log('-------------------------------------');
-console.log('**            All Books            **');
-console.log('-------------------------------------');
-for (let book of bookTitle) {
-   console.log(book);
-}
 purchaseBooks(books, discount, tax, amountStock, purchasedBook, terms);
 module.exports = {
-   displayBookDetail,
-   displayBookPurchased,
    determineCreditTerms,
    purchaseBooks,
 };
