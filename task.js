@@ -4,6 +4,7 @@ async function determineCreditTerms(totalPrice, terms) {
    const duePerTerm = totalPrice / terms;
    const dueDate = new Date();
    let creditTerms = [];
+   let totalAmountDecimal = [];
 
    for (let i = 0; i < terms; i++) {
       dueDate.setDate(dueDate.getDate() + 30);
@@ -11,6 +12,9 @@ async function determineCreditTerms(totalPrice, terms) {
          month: i + 1,
          due: dueDate.toISOString().split('T')[0],
          pay: Math.ceil(duePerTerm),
+      });
+      totalAmountDecimal.push({
+         pay: duePerTerm,
       });
    }
 
@@ -23,10 +27,17 @@ async function determineCreditTerms(totalPrice, terms) {
    const totalPayment = payment.reduce((accumulator, currentValue) => {
       return accumulator + currentValue;
    }, 0);
+   const allPaymentDecimal = totalAmountDecimal.map((money) => money.pay);
+   const paymentDecimal = allPaymentDecimal.reduce(
+      (accumulator, currentValue) => {
+         return accumulator + currentValue;
+      },
+      0
+   );
 
-   console.log('**        Credit Simulation       **');
-   console.log(creditTerms);
-   return { creditTerms, payment, totalPayment };
+   // console.log('**        Credit Simulation       **');
+   // console.log(creditTerms);
+   return { creditTerms, payment, totalPayment, paymentDecimal };
 }
 // function purchasing books
 async function purchaseBooks(
