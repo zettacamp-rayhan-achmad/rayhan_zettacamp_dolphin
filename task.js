@@ -1,32 +1,43 @@
+const fs = require('fs');
 // function credit terms
 async function determineCreditTerms(totalPrice, terms) {
    const duePerTerm = totalPrice / terms;
    const dueDate = new Date();
    let creditTerms = [];
+   let totalAmountDecimal = [];
 
    for (let i = 0; i < terms; i++) {
       dueDate.setDate(dueDate.getDate() + 30);
       creditTerms.push({
          month: i + 1,
          due: dueDate.toISOString().split('T')[0],
+         pay: Math.ceil(duePerTerm),
+      });
+      totalAmountDecimal.push({
          pay: duePerTerm,
       });
    }
 
-   await new Promise((resolve) => {
-      setTimeout(resolve, 5000);
-   });
+   // await new Promise((resolve) => {
+   //    setTimeout(resolve, 2000);
+   // });
 
    // grouping payment
    const payment = creditTerms.map((money) => money.pay);
    const totalPayment = payment.reduce((accumulator, currentValue) => {
       return accumulator + currentValue;
    }, 0);
-   // console.log(creditTerms[0].pay);
-   console.log('------------------------------------');
-   console.log('**        Credit Simulation       **');
-   console.log(creditTerms);
-   return { creditTerms, totalPayment };
+   const allPaymentDecimal = totalAmountDecimal.map((money) => money.pay);
+   const paymentDecimal = allPaymentDecimal.reduce(
+      (accumulator, currentValue) => {
+         return accumulator + currentValue;
+      },
+      0
+   );
+
+   // console.log('**        Credit Simulation       **');
+   // console.log(creditTerms);
+   return { creditTerms, payment, totalPayment, paymentDecimal };
 }
 // function purchasing books
 async function purchaseBooks(
@@ -48,12 +59,12 @@ async function purchaseBooks(
    let availableStock = amountStock;
 
    await new Promise((resolve) => {
-      setTimeout(resolve, 5000);
+      setTimeout(resolve, 500);
    });
    for (let i = 1; i <= purchasedBook; i++) {
       if (availableStock === 0) {
-         console.log(`Out of stock, only purchasing ${i - 1} books.`);
-         console.log(`cannot buy book any more`);
+         // console.log(`Out of stock, only purchasing ${i - 1} books.`);
+         // console.log(`cannot buy book any more`);
          break;
       }
 
@@ -62,13 +73,10 @@ async function purchaseBooks(
 
       if (i === purchasedBook) {
          if (availableStock > 0) {
-            console.log(
-               `Purchased ${purchasedBook} books. ${availableStock} books can still be purchased.`
-            );
+            // console.log(
+            //    `Purchased ${purchasedBook} books. ${availableStock} books can still be purchased.`
+            // );
          } else {
-            console.log(
-               `Purchased all ${purchasedBook} books. you cannot buy book any more`
-            );
          }
       }
    }
@@ -77,7 +85,7 @@ async function purchaseBooks(
    totalPrice += totalPrice * (tax / 100);
 
    determineCreditTerms(totalPrice, terms);
-   console.log(`Total price: Rp ${totalPrice}`);
+   // console.log(`Total price: Rp ${totalPrice}`);
 
    return {
       title,
@@ -110,11 +118,39 @@ let bookDetail = [
       author: 'Paulo Coelho',
       price: 65000,
    },
+   {
+      title: 'Seconhand Time',
+      author: 'Svetlana Alexievich',
+      price: 72000,
+   },
+   {
+      title: 'Wolf Hall',
+      author: 'Hilary Mantel',
+      price: 48000,
+   },
 ];
 // destructuring
 const { title, author, price } = bookDetail;
 const books = bookDetail[1];
 const bookTitle = bookDetail.map((book) => book.title);
+
+async function processObject(bookDetail) {
+   for (const book of bookDetail) {
+      await new Promise((resolve) => {
+         setTimeout(() => {
+            console.log(book.title);
+            resolve();
+         }, 2000);
+      });
+      const newBookTitle = book.title + '\n';
+      fs.appendFile('book.txt', newBookTitle, (err) => {
+         if (err) {
+            console.log('failed write text', err);
+            return;
+         }
+      });
+   }
+}
 
 // initial
 const discount = 10;
@@ -127,4 +163,7 @@ purchaseBooks(books, discount, tax, amountStock, purchasedBook, terms);
 module.exports = {
    determineCreditTerms,
    purchaseBooks,
+   processObject,
+   bookTitle,
+   bookDetail,
 };
