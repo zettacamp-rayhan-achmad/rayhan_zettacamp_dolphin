@@ -291,10 +291,10 @@ exports.aggregation = async (req, res) => {
                _id: 0,
                books: 1,
                genre: 1,
-               purchasedBook: 1,
                fullGenre: {
                   $concat: ['$genre', ', ', '$addGenre'],
                },
+               addGenre: 1,
             },
          },
          { $match: { genre: getGenre } },
@@ -318,9 +318,6 @@ exports.aggregation = async (req, res) => {
 exports.lookup = async (req, res) => {
    try {
       const books = await bookShelves.aggregate([
-         // {
-         //    $unwind: '$books',
-         // },
          {
             $lookup: {
                from: 'books',

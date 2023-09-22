@@ -3,16 +3,16 @@
 **Position:** Back-End
 
 ### explain $match
-match adalah salah satu operator dalam operasi aggregasi yang digunakan untuk memfilter dokumen untuk meneruskan hanya dokumen yang cocok dengan kondisi yang ditentukan ke tahap alur berikutnya.
-Misalnya, dalam kasus ini saya ingin mencari buku dengan genre (fantasy) maka akan dipilih buku hanya yang memiliki genre fantasy.
+match is one of the operators in an aggregation operation that is used to filter documents to pass only documents that match specified conditions to the next stage of the flow.
+For example, in this case I want to search for books in the genre (fantasy), so only books in the fantasy genre will be selected.
 
 ### explain $sort
-sort digunakan untuk mengurutkan dokumen dalam hasil agregasi berdasarkan satu atau lebih kriteria tertentu. Dengan menggunakan $sort, kita dapat mengontrol urutan keluaran dokumen yang diperoleh melalui operasi agregasi. 
-kita dapat menentukan apakah ingin mengurutkan secara ascending 1 (dari yang terkecil ke yang terbesar) atau descending -1 (dari yang terbesar ke yang terkecil).
+sort is used to sort documents in aggregation results based on one or more specific criteria. Using $sort, we can control the output order of documents obtained through aggregation operations.
+we can determine whether we want to sort ascending 1 (from smallest to largest) or descending -1 (from largest to smallest).
 
 ### explain $concat
-concat adalah operator dalam operasi agregasi yang digunakan untuk menggabungkan beberapa nilai string menjadi satu nilai string tunggal. dalam kasus ini saya menggabungkan genre lama dengan genre tambahan.
+concat is an operator in aggregation operations that is used to combine multiple string values into one single string value. in this case I combined old genres with additional genres.
 
 ### explain $lookup
-lookup adalah salah satu operasi agregasi dalam MongoDB yang digunakan untuk menggabungkan data dari dua koleksi (collections) yang berbeda dalam sebuah database. Ini sangat berguna ketika kita memiliki dua koleksi yang berhubungan dan ingin mengambil data dari kedua koleksi tersebut dalam satu query.
-Misalnya, dalam kasus ini saya memiliki koleksi "bookshelves" dan koleksi "book", saya gunakan $lookup untuk menggabungkannya berdasarkan ID buku.
+lookup is an aggregation operation in MongoDB which is used to combine data from two different collections in a database. This is very useful when we have two related collections and want to retrieve data from both collections in one query.
+For example, in this case I have a collection "bookshelves" and a collection "books", I use $lookup to combine them by book ID.
