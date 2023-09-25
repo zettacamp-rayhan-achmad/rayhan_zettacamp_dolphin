@@ -348,3 +348,87 @@ exports.lookup = async (req, res) => {
       });
    }
 };
+
+// task mongoDB day 7
+exports.allpage = async (req, res) => {
+   try {
+      const books = await book.aggregate([
+         {
+            $facet: {
+               page1: [
+                  {
+                     $project: {
+                        _id: 0,
+                        books: 1,
+                        genre: 1,
+                        purchasedBook: 1,
+                     },
+                  },
+                  {
+                     $limit: 3,
+                  },
+               ],
+               page2: [
+                  { $skip: 3 },
+                  {
+                     $project: {
+                        _id: 0,
+                        books: 1,
+                        genre: 1,
+                        purchasedBook: 1,
+                     },
+                  },
+                  {
+                     $limit: 3,
+                  },
+               ],
+            },
+         },
+      ]);
+      res.status(200).json({
+         status: 'success',
+         requestAt: req.requestTime,
+         data: {
+            purchase: books,
+         },
+      });
+   } catch (err) {
+      res.status(400).json({
+         status: 'failed request',
+         message: err,
+      });
+   }
+};
+exports.pagination = async (req, res) => {
+   try {
+      const amountDocument = req.body.amountDocument;
+      const pageNumber = req.body.pageNumber;
+      const skipAmount = (pageNumber - 1) * amountDocument;
+      const books = await book.aggregate([
+         {
+            $project: {
+               _id: 0,
+               books: 1,
+               genre: 1,
+               purchasedBook: 1,
+            },
+         },
+         { $skip: skipAmount },
+         {
+            $limit: amountDocument,
+         },
+      ]);
+      res.status(200).json({
+         status: 'success',
+         requestAt: req.requestTime,
+         data: {
+            purchase: books,
+         },
+      });
+   } catch (err) {
+      res.status(400).json({
+         status: 'failed request',
+         message: err,
+      });
+   }
+};

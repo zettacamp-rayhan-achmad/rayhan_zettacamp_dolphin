@@ -19,6 +19,7 @@ const {
    getDistinctGenre,
    aggregation,
    lookup,
+   pagination,
 } = require('./controller/book-shelf');
 const {
    purchaseBookWithTerms,
@@ -60,6 +61,9 @@ app.get('/aggregate', aggregate);
 app.get('/unwind', unwind);
 app.get('/aggregation', aggregation);
 app.get('/lookup', lookup);
+
+// pagination
+app.get('/pagination', pagination);
 
 // ##### database connect #####
 mongoose

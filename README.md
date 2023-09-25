@@ -2,17 +2,15 @@
 **Name:** Rayhan Zidane Achmad
 **Position:** Back-End
 
-### explain $match
-match is one of the operators in an aggregation operation that is used to filter documents to pass only documents that match specified conditions to the next stage of the flow.
-For example, in this case I want to search for books in the genre (fantasy), so only books in the fantasy genre will be selected.
+### explain $facet
+$facet adalah salah satu tahapan (stage) dalam operasi agregasi MongoDB yang memungkinkan Anda untuk menjalankan beberapa tahapan agregasi secara paralel dan menghasilkan beberapa hasil sekaligus. $facet berguna ketika Anda ingin melakukan beberapa operasi agregasi pada data yang sama dan memprosesnya secara terpisah.
 
-### explain $sort
-sort is used to sort documents in aggregation results based on one or more specific criteria. Using $sort, we can control the output order of documents obtained through aggregation operations.
-we can determine whether we want to sort ascending 1 (from smallest to largest) or descending -1 (from largest to smallest).
+### explain $skip
+$skip adalah salah satu tahap (stage) dalam operasi agregasi MongoDB yang digunakan untuk mengabaikan sejumlah tertentu dari dokumen awal dalam hasil agregasi. Dengan menggunakan $skip, Anda dapat melewati sejumlah dokumen tertentu dalam koleksi sebelum mengambil atau menghasilkan dokumen yang sesuai dengan kriteria tertentu.
+Penggunaan $skip berguna ketika Anda ingin membagi hasil agregasi menjadi beberapa halaman atau ketika Anda hanya tertarik pada sebagian data tertentu dari hasil agregasi
 
-### explain $concat
-concat is an operator in aggregation operations that is used to combine multiple string values into one single string value. in this case I combined old genres with additional genres.
+### explain $group
+group adalah salah satu tahap (stage) dalam operasi agregasi MongoDB yang digunakan untuk mengelompokkan dokumen berdasarkan nilai-nilai tertentu dalam satu atau beberapa field dan melakukan perhitungan atau agregasi pada dokumen-dokumen yang termasuk dalam setiap grup
 
-### explain $lookup
-lookup is an aggregation operation in MongoDB which is used to combine data from two different collections in a database. This is very useful when we have two related collections and want to retrieve data from both collections in one query.
-For example, in this case I have a collection "bookshelves" and a collection "books", I use $lookup to combine them by book ID.
+### explain $limit
+$limit adalah salah satu tahap (stage) dalam operasi agregasi MongoDB yang digunakan untuk membatasi jumlah dokumen yang dihasilkan oleh agregasi. Dengan menggunakan $limit, Anda dapat mengambil hanya sejumlah tertentu dari hasil agregasi yang sesuai dengan kriteria tertentu.
