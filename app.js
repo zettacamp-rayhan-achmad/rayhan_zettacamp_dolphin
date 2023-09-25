@@ -20,6 +20,8 @@ const {
    aggregation,
    lookup,
    pagination,
+   allpage,
+   paginationAll,
 } = require('./controller/book-shelf');
 const {
    purchaseBookWithTerms,
@@ -63,7 +65,9 @@ app.get('/aggregation', aggregation);
 app.get('/lookup', lookup);
 
 // pagination
+app.get('/allpage', allpage);
 app.get('/pagination', pagination);
+app.get('/paginationAll', paginationAll);
 
 // ##### database connect #####
 mongoose

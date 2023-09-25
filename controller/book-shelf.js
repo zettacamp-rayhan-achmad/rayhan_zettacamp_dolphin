@@ -414,8 +414,82 @@ exports.pagination = async (req, res) => {
             },
          },
          { $skip: skipAmount },
+         { $limit: amountDocument },
          {
-            $limit: amountDocument,
+            $group: {
+               _id: '$books.title',
+               author: { $first: '$books.author' },
+               genre: { $first: '$genre' },
+            },
+         },
+      ]);
+      res.status(200).json({
+         status: 'success',
+         requestAt: req.requestTime,
+         data: {
+            purchase: books,
+         },
+      });
+   } catch (err) {
+      res.status(400).json({
+         status: 'failed request',
+         message: err,
+      });
+   }
+};
+exports.paginationAll = async (req, res) => {
+   try {
+      const amountDocument = req.body.amountDocument;
+      const pageNumber = req.body.pageNumber;
+      const skipAmount = (pageNumber - 1) * amountDocument;
+      const books = await book.aggregate([
+         {
+            $facet: {
+               books: [
+                  { $skip: skipAmount },
+                  { $limit: amountDocument },
+                  {
+                     $group: {
+                        _id: '$_id',
+                        title: { $first: '$books.title' },
+                        author: { $first: '$books.author' },
+                        genre: { $first: '$genre' },
+                        price: { $first: '$books.price' },
+                     },
+                  },
+                  {
+                     $project: {
+                        _id: 0,
+                        title: 1,
+                        books: 1,
+                        author: 1,
+                        genre: 1,
+                        price: 1,
+                     },
+                  },
+               ],
+               totalPrice: [
+                  { $skip: skipAmount },
+                  { $limit: amountDocument },
+                  {
+                     $group: {
+                        _id: null,
+                        price: { $sum: '$books.price' },
+                     },
+                  },
+                  {
+                     $project: {
+                        _id: 0,
+                        price: 1,
+                     },
+                  },
+               ],
+            },
+         },
+         {
+            $addFields: {
+               page: pageNumber,
+            },
          },
       ]);
       res.status(200).json({
