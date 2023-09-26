@@ -17,6 +17,10 @@ const songsSchema = new mongoose.Schema({
       type: Number,
       required: true,
    },
+   playlist: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'playlist',
+   },
 });
 
 const songs = mongoose.model('songs', songsSchema);

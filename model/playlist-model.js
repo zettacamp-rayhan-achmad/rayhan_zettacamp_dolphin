@@ -5,10 +5,12 @@ const playlistSchema = new mongoose.Schema({
       type: String,
       required: true,
    },
-   songs: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'songs',
-   },
+   songs: [
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'songs',
+      },
+   ],
 });
 
 const playlist = mongoose.model('playlist', playlistSchema);
