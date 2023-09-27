@@ -174,24 +174,17 @@ exports.aggregatePlaylist = async (req, res) => {
       });
    }
 };
-
+// this one that's true mas
 exports.aggregatePlaylistPercobaan = async (req, res) => {
    try {
-      const matchByGenre = req.body.matchByGenre;
+      const matchByTitlePlaylist = req.body.matchByTitlePlaylist;
       const amountDocument = req.body.amountDocument;
       const pageNumber = req.body.pageNumber;
       const skipAmount = (pageNumber - 1) * amountDocument;
       const songsPage = await playlist.aggregate([
          {
-            $match: {
-               genre: matchByGenre,
-            },
-         },
-         {
             $facet: {
-               Songs: [
-                  { $skip: skipAmount },
-                  { $limit: amountDocument },
+               playlist: [
                   {
                      $lookup: {
                         from: 'songs',
@@ -202,47 +195,54 @@ exports.aggregatePlaylistPercobaan = async (req, res) => {
                   },
                   {
                      $project: {
-                        _id: 0,
-                        title: 1,
-                        Songs: 1,
-                        artist: 1,
-                        genre: 1,
-                        duration: 1,
-                        playlist: 1,
+                        _id: 1,
+                        playlistTitle: 1,
+                        allSongs: 1,
                      },
                   },
-                  { $sort: { duration: 1 } },
+                  // { $match: { playlistTitle: matchByTitlePlaylist } },
+                  { $sort: { playlistTitle: 1 } },
                ],
-               amountDuration: [
-                  { $skip: skipAmount },
-                  { $limit: amountDocument },
+               allPlaylistTitle: [
                   {
                      $group: {
-                        _id: null,
-                        duration: { $sum: '$duration' },
+                        _id: '$playlistTitle',
+                        count: { $sum: 1 },
                      },
                   },
                   {
                      $project: {
                         _id: 0,
-                        duration: 1,
+                        playlistTitle: '$_id',
+                     },
+                  },
+               ],
+               matchTitle: [
+                  { $match: { playlistTitle: matchByTitlePlaylist } },
+                  {
+                     $lookup: {
+                        from: 'songs',
+                        localField: 'songs',
+                        foreignField: '_id',
+                        as: 'allSongs',
+                     },
+                  },
+                  {
+                     $project: {
+                        _id: 1,
+                        playlistTitle: 1,
+                        allSongs: 1,
                      },
                   },
                ],
             },
          },
-         {
-            $addFields: {
-               page: pageNumber,
-            },
-         },
       ]);
-
       res.status(200).json({
          status: 'success',
          requestAt: req.requestTime,
          data: {
-            song: songsPage,
+            songspage: songsPage,
          },
       });
    } catch (err) {

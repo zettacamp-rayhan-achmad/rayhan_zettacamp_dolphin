@@ -140,7 +140,7 @@ exports.aggregateSong = async (req, res) => {
                         playlist: 1,
                      },
                   },
-                  { $sort: { duration: 1 } },
+                  { $sort: { duration: -1 } },
                ],
                amountDuration: [
                   { $match: { genre: matchByGenre } },
