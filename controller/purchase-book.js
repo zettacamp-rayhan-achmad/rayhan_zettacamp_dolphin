@@ -133,22 +133,11 @@ exports.purchaseBookWithTerms = async (req, res) => {
       console.log(err);
    }
 };
-exports.getPurchase = async (req, res) => {
+exports.getPurchase = async () => {
    try {
       const books = await PurchaseBook.find();
-      res.status(200).json({
-         status: 'success',
-         requestAt: req.requestTime,
-         data: {
-            purchase: books,
-         },
-      });
-   } catch (err) {
-      res.status(400).json({
-         status: 'failed request',
-         message: err,
-      });
-   }
+      return books;
+   } catch (err) {}
 };
 exports.getPurhcaseBookById = async (req, res) => {
    try {
@@ -176,6 +165,7 @@ exports.createPurchase = async (req, res) => {
       const purchasedBook = req.body.purchasedBook;
       const terms = req.body.terms;
       const genre = req.body.genre;
+      const isUsed = req.body.isUsed;
 
       const newBook = await purchaseBooks(
          books,
@@ -197,9 +187,10 @@ exports.createPurchase = async (req, res) => {
          taxAmount: tax,
          priceAfterTax: newBook.priceAfterTax,
          purchasedBook: newBook.purchasedBook,
-         terms: books.terms,
+         terms: terms,
          availableStock: newBook.availableStock,
          totalPrice: newBook.totalPrice,
+         isUsed: isUsed,
       });
       res.status(201).json({
          status: 'create success',

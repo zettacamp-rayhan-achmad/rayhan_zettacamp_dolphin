@@ -47,6 +47,10 @@ const bookSchema = new mongoose.Schema({
    totalPrice: {
       type: Number,
    },
+   isUsed: {
+      type: Boolean,
+      default: true,
+   },
 });
 
 const PurchaseBook = mongoose.model('book', bookSchema);

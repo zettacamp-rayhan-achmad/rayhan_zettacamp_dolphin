@@ -2,16 +2,22 @@
 **Name:** Rayhan Zidane Achmad
 **Position:** Back-End
 
-### explain $facet
-$facet is a stage in a MongoDB aggregation operation that allows you to run multiple aggregation stages in parallel and produce multiple results at once. $facet is useful when we want to perform multiple aggregation operations on the same data and process them separately.
-in my case, I want to run two separate aggregation operations on my collection namely to determine the books per page and the total price of the books on each page.
+### explain apollo server express
+Apollo Server adalah sebuah perangkat lunak (software) yang digunakan untuk membangun server GraphQL. Apollo Server berfungsi sebagai server untuk menerima kueri GraphQL dari klien dan memberikan respons sesuai dengan permintaan tersebut.
+Apollo Server Express adalah bagian dari ekosistem Apollo GraphQL yang dirancang untuk berintegrasi dengan Express.js. Apollo Server Express juga merupakan middleware Express.js yang dapat ditambahkan ke aplikasi Express kita. Ini berarti kita dapat menggabungkan Apollo Server ke dalam rantai middleware Express yang ada untuk mengontrol alur permintaan HTTP dan menyediakan API GraphQL melalui rute tertentu di aplikasi kita.
 
-### explain $skip
-$skip is a stage in the MongoDB aggregation operation which is used to ignore a certain number of initial documents in the aggregation results. Using $skip, we can skip a specified number of documents in a collection before retrieving or generating documents that match certain criteria.
-The use of $skip is useful when we want to divide the aggregation results into several pages or when we are only interested in certain portions of data from the aggregation results.
+### explain graphQL
+GraphQL adalah bahasa kueri dan sistem runtime untuk mengambil dan memanipulasi data dari server. Kueri ini berisi informasi tentang tipe data apa yang diinginkan oleh klien dan bagaimana tipe-tipe tersebut harus dihubungkan. Dengan GraphQL, klien dapat menyusun kueri yang hanya mencakup bidang-bidang data yang benar-benar diperlukan.
 
-### explain $group
-group is one of the stages in the MongoDB aggregation operation which is used to group documents based on certain values in one or several fields and perform calculations or aggregations on the documents included in each group
+Di sisi server, kita mendefinisikan skema GraphQL yang berisi tipe-tipe data yang tersedia, operasi yang diizinkan, dan hubungan antara tipe-tipe tersebut. Misalnya, saya dapat mendefinisikan tipe data Books dan book purchased, serta hubungan antara keduanya dalam skema. 
 
-### explain $limit
-$limit is one of the stages in the MongoDB aggregation operation which is used to limit the number of documents produced by the aggregation. Using $limit, we can retrieve only a specified number of aggregation results that match certain criteria.
+Ada tiga jenis operasi utama dalam GraphQL: kueri (query), mutasi (mutation), dan langganan (subscription).
+
+1. Kueri digunakan untuk membaca data dari server. Contohnya adalah kueri di atas yang mengambil informasi buku.
+2. Mutasi digunakan untuk mengubah data di server, seperti menambahkan, memperbarui, atau menghapus data.
+3. Langganan digunakan untuk mengizinkan klien untuk berlangganan pembaruan secara real-time dari server saat data berubah.
+
+GraphQL memecahkan masalah over-fetching (mengambil lebih banyak data dari yang diperlukan) dan under-fetching (mengambil data yang tidak mencukupi) yang sering terjadi dalam REST API. 
+
+Salah satu fitur utama GraphQL adalah bahwa klien hanya mengirim satu permintaan (kueri) ke server, dan server hanya memberikan satu respons.
+

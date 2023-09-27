@@ -1,7 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
-// const checkAuth = require('./auth');
+const { ApolloServer } = require('apollo-server-express');
+// const { makeExecutableSchema } = require('graphql-tools');
+// const { applyMiddleware } = require('graphql-middleware');
+const typeDefs = require('./graphql/purchase-schema');
+const resolvers = require('./graphql/resolvers');
+// const { authMiddleware } = require('./middlewares');
+
 const app = express();
+// const executableSchema = makeExecutableSchema({ typeDefs, resolvers });
+// const protectedSchema = applyMiddleware(executableSchema, authMiddleware);
+
 app.use(express.json());
 const fs = require('fs');
 const {
@@ -33,8 +42,6 @@ const {
    deleteAllPurchase,
 } = require('./controller/purchase-book');
 // app.use(checkAuth);
-const url = 'mongodb://localhost:27017/';
-const database = 'purchaseBooks';
 
 // ***** BOOK PURCHASE *****
 app.post('/purchaseBookWithTerms', purchaseBookWithTerms);
@@ -70,6 +77,8 @@ app.get('/pagination', pagination);
 app.get('/paginationAll', paginationAll);
 
 // ##### database connect #####
+const url = 'mongodb://127.0.0.1:27017/';
+const database = 'purchaseBooks';
 mongoose
    .connect(`${url}${database}`, {
       useNewUrlParser: true,
@@ -82,7 +91,9 @@ mongoose
       console.error('error connecting to mongoDB', error);
    });
 
-const port = 3000;
+const server = new ApolloServer({ typeDefs, resolvers });
+server.applyMiddleware({ app });
+const port = 5000;
 app.listen(port, () => {
-   console.log(`App running on port ${port}..!`);
+   console.log(`graphQL running at http://localhost:${port}/graphql`);
 });
