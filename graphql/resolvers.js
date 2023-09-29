@@ -7,8 +7,11 @@ module.exports = {
    },
    Mutation: {
       createPurchase: async (_, args) => {
-         const book = new purchaseBook(args);
-         await book.save();
+         const book = await purchaseBook.create(args);
+         return book;
+      },
+      createManyPurchase: async (_, { books }) => {
+         const book = await purchaseBook.insertMany(books);
          return book;
       },
       updatePurchase: async (_, args) => {

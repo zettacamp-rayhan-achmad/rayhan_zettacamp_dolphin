@@ -13,6 +13,14 @@ const typeDefs = gql`
       getAllBook: [BookPurchase]!
       getBook(_id: ID!): BookPurchase!
    }
+
+   input BookInput {
+      title: String!
+      author: String!
+      price: Int!
+      genre: String!
+      isUsed: Boolean!
+   }
    type Mutation {
       createPurchase(
          title: String!
@@ -21,6 +29,8 @@ const typeDefs = gql`
          genre: String!
          isUsed: Boolean!
       ): BookPurchase!
+
+      createManyPurchase(books: [BookInput]): [BookPurchase]!
 
       updatePurchase(
          _id: ID!
