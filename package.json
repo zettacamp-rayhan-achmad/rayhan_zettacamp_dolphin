@@ -1,0 +1,28 @@
+{
+  "name": "githubzetta",
+  "version": "1.0.0",
+  "description": "**rayhan_zettacamp_dolphin**\r **Name:** Rayhan Zidane Achmad\r **Position:** Back-End",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zettacamp-rayhan-achmad/rayhan_zettacamp_dolphin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zettacamp-rayhan-achmad/rayhan_zettacamp_dolphin/issues"
+  },
+  "homepage": "https://github.com/zettacamp-rayhan-achmad/rayhan_zettacamp_dolphin#readme",
+  "dependencies": {
+    "apollo-server-express": "^2.8.1",
+    "express": "^4.18.2",
+    "graphql": "^14.4.2",
+    "graphql-middleware": "^4.0.0",
+    "graphql-tools": "^4.0.5",
+    "mongoose": "^7.5.3"
+  },
+  "keywords": []
+}
