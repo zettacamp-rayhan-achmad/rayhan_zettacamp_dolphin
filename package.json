@@ -18,7 +18,9 @@
   "homepage": "https://github.com/zettacamp-rayhan-achmad/rayhan_zettacamp_dolphin#readme",
   "dependencies": {
     "apollo-server-express": "^2.8.1",
+    "dataloader": "^2.2.2",
     "express": "^4.18.2",
+    "express-graphql": "^0.12.0",
     "graphql": "^14.4.2",
     "graphql-middleware": "^4.0.0",
     "graphql-tools": "^4.0.5",

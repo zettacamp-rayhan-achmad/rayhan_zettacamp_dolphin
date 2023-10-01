@@ -9,9 +9,17 @@ const typeDefs = gql`
       genre: String!
       isUsed: Boolean!
    }
+   type BookShelves {
+      _id: ID!
+      name: String!
+      books: [BookPurchase]
+   }
+
    type Query {
       getAllBook: [BookPurchase]!
       getBook(_id: ID!): BookPurchase!
+      getBookShelves(id: ID!): BookShelves!
+      getAllBookShelf: [BookShelves]!
    }
 
    input BookInput {
@@ -43,6 +51,8 @@ const typeDefs = gql`
 
       deletePurchase(_id: ID!): Boolean!
       deleteAll: Boolean!
+
+      createBookshelf(name: String!, books: [ID]): BookShelves!
    }
 `;
 

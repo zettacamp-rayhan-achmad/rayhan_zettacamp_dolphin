@@ -1,9 +1,21 @@
+const bookShelves = require('../model/book-shelves');
 const purchaseBook = require('./../model/books');
+const { bookLoader, bookShelfLoader } = require('./dataloader');
 
 module.exports = {
    Query: {
       getAllBook: async () => await purchaseBook.find(),
       getBook: async (_, args) => await purchaseBook.findById(args._id),
+      // Using DataLoader
+      getBookShelves: async (_, { id }) => {
+         return bookShelfLoader.load(id);
+      },
+      getAllBookShelf: async () => {
+         const allBookShelf = await bookShelves.find({}, '_id');
+         return bookShelfLoader.loadMany(
+            allBookShelf.map((bookshelf) => bookshelf._id)
+         );
+      },
    },
    Mutation: {
       createPurchase: async (_, args) => {
@@ -29,6 +41,10 @@ module.exports = {
          const book = await purchaseBook.deleteMany({});
          if (book) return true;
          else return false;
+      },
+      createBookshelf: async (_, args) => {
+         const bookshelf = await bookShelves.create(args);
+         return bookshelf;
       },
    },
 };
