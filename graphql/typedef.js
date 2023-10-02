@@ -30,6 +30,8 @@ const typeDefs = gql`
       isUsed: Boolean!
    }
    type Mutation {
+      login: String
+
       createPurchase(
          title: String!
          author: String!

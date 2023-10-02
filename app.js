@@ -1,15 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { ApolloServer } = require('apollo-server-express');
-// const { makeExecutableSchema } = require('graphql-tools');
-// const { applyMiddleware } = require('graphql-middleware');
 const typeDefs = require('./graphql/typedef');
 const resolvers = require('./graphql/resolvers');
-// const { authMiddleware } = require('./middlewares');
+const jwt = require('jsonwebtoken');
 
 const app = express();
-// const executableSchema = makeExecutableSchema({ typeDefs, resolvers });
-// const protectedSchema = applyMiddleware(executableSchema, authMiddleware);
 
 app.use(express.json());
 const fs = require('fs');
@@ -91,7 +87,21 @@ mongoose
       console.error('error connecting to mongoDB', error);
    });
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const secretKey = 'rahasia';
+
+const server = new ApolloServer({
+   typeDefs,
+   resolvers,
+   context: ({ req }) => {
+      try {
+         const token = req.headers.authorization || '';
+         const user = jwt.verify(token.replace('Bearer ', ''), secretKey);
+         return { user };
+      } catch (error) {
+         return 'ada error token', error;
+      }
+   },
+});
 server.applyMiddleware({ app });
 const port = 3000;
 app.listen(port, () => {

@@ -1,23 +1,49 @@
 const bookShelves = require('../model/book-shelves');
 const purchaseBook = require('./../model/books');
 const { bookLoader, bookShelfLoader } = require('./dataloader');
+const { AuthenticationError } = require('apollo-server-express');
+const jwt = require('jsonwebtoken');
+
+const secretKey = 'rahasia';
 
 module.exports = {
    Query: {
-      getAllBook: async () => await purchaseBook.find(),
+      getAllBook: async (_, __, context) => {
+         if (!context.user) {
+            throw new AuthenticationError('you must log in to access the data');
+         }
+         const book = await purchaseBook.find();
+         return book;
+      },
       getBook: async (_, args) => await purchaseBook.findById(args._id),
       // Using DataLoader
-      getBookShelves: async (_, { id }) => {
+      getBookShelves: async (_, { id }, context) => {
+         if (!context.user) {
+            throw new AuthenticationError(
+               'you must log in to access the bookshelf'
+            );
+         }
          return bookShelfLoader.load(id);
       },
-      getAllBookShelf: async () => {
+      getAllBookShelf: async (_, __, context) => {
+         if (!context.user) {
+            throw new AuthenticationError(
+               'you must log in to access the bookshelf'
+            );
+         }
          const allBookShelf = await bookShelves.find({}, '_id');
+         console.log(allBookShelf);
          return bookShelfLoader.loadMany(
             allBookShelf.map((bookshelf) => bookshelf._id)
          );
       },
    },
    Mutation: {
+      login: () => {
+         const token = jwt.sign({}, secretKey, { expiresIn: '1h' });
+         return token;
+      },
+
       createPurchase: async (_, args) => {
          const book = await purchaseBook.create(args);
          return book;
