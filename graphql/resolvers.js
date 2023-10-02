@@ -15,7 +15,13 @@ module.exports = {
          const book = await purchaseBook.find();
          return book;
       },
-      getBook: async (_, args) => await purchaseBook.findById(args._id),
+      getBook: async (_, args, context) => {
+         if (!context.user) {
+            throw new AuthenticationError('you must log in to access the data');
+         }
+         const book = await purchaseBook.findById(args._id);
+         return book;
+      },
       // Using DataLoader
       getBookShelves: async (_, { id }, context) => {
          if (!context.user) {
@@ -32,7 +38,6 @@ module.exports = {
             );
          }
          const allBookShelf = await bookShelves.find({}, '_id');
-         console.log(allBookShelf);
          return bookShelfLoader.loadMany(
             allBookShelf.map((bookshelf) => bookshelf._id)
          );
@@ -44,31 +49,49 @@ module.exports = {
          return token;
       },
 
-      createPurchase: async (_, args) => {
+      createPurchase: async (_, args, context) => {
+         if (!context.user) {
+            throw new AuthenticationError('you must log in to access the data');
+         }
          const book = await purchaseBook.create(args);
          return book;
       },
-      createManyPurchase: async (_, { books }) => {
+      createManyPurchase: async (_, { books }, context) => {
+         if (!context.user) {
+            throw new AuthenticationError('you must log in to access the data');
+         }
          const book = await purchaseBook.insertMany(books);
          return book;
       },
-      updatePurchase: async (_, args) => {
+      updatePurchase: async (_, args, context) => {
+         if (!context.user) {
+            throw new AuthenticationError('you must log in to access the data');
+         }
          const book = await purchaseBook.findByIdAndUpdate(args._id, args, {
             new: true,
          });
          return book;
       },
-      deletePurchase: async (_, args) => {
+      deletePurchase: async (_, args, context) => {
+         if (!context.user) {
+            throw new AuthenticationError('you must log in to access the data');
+         }
          const book = await purchaseBook.findByIdAndDelete(args._id);
          if (book) return true;
          else return false;
       },
-      deleteAll: async () => {
+      deleteAll: async (_, __, context) => {
+         if (!context.user) {
+            throw new AuthenticationError('you must log in to access the data');
+         }
          const book = await purchaseBook.deleteMany({});
          if (book) return true;
          else return false;
       },
-      createBookshelf: async (_, args) => {
+      createBookshelf: async (_, args, context) => {
+         if (!context.user) {
+            throw new AuthenticationError('you must log in to access the data');
+         }
          const bookshelf = await bookShelves.create(args);
          return bookshelf;
       },
