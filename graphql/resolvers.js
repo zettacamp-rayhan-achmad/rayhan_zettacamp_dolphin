@@ -1,6 +1,7 @@
 const bookShelves = require('../model/book-shelves');
 const purchaseBook = require('./../model/books');
-const { bookLoader, bookShelfLoader } = require('./dataloader');
+const author = require('./../model/author');
+const { bookLoader, bookShelfLoader, authorLoader } = require('./dataloader');
 const { AuthenticationError } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 
@@ -48,7 +49,13 @@ module.exports = {
          const token = jwt.sign({}, secretKey, { expiresIn: '1h' });
          return token;
       },
-
+      createAuthor: async (_, args, context) => {
+         if (!context.user) {
+            throw new AuthenticationError('you must log in to access the data');
+         }
+         const book = await author.create(args);
+         return book;
+      },
       createPurchase: async (_, args, context) => {
          if (!context.user) {
             throw new AuthenticationError('you must log in to access the data');
@@ -94,6 +101,16 @@ module.exports = {
          }
          const bookshelf = await bookShelves.create(args);
          return bookshelf;
+      },
+   },
+   BookPurchase: {
+      author: async (parent, __, context) => {
+         if (!context.user) {
+            throw new AuthenticationError(
+               'you must log in to access the bookshelf'
+            );
+         }
+         return authorLoader.load(parent.author);
       },
    },
 };

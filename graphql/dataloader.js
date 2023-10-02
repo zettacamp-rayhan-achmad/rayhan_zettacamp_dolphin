@@ -1,5 +1,6 @@
 const DataLoader = require('dataloader');
 const PurchaseBook = require('./../model/books');
+const author = require('./../model/author');
 const bookShelves = require('./../model/book-shelves');
 
 const batchLoadBook = async (keys) => {
@@ -21,8 +22,17 @@ const batchLoadBookshelf = async (keys) => {
    });
    return keys.map((key) => documentMap[key.toString()]);
 };
+const batchLoadAuthor = async (keys) => {
+   const documents = await author.find({ _id: { $in: keys } });
+   const documentMap = {};
+   documents.forEach((doc) => {
+      documentMap[doc._id.toString()] = doc;
+   });
+   return keys.map((key) => documentMap[key.toString()]);
+};
 
 const bookLoader = new DataLoader(batchLoadBook);
 const bookShelfLoader = new DataLoader(batchLoadBookshelf);
+const authorLoader = new DataLoader(batchLoadAuthor);
 
-module.exports = { bookLoader, bookShelfLoader };
+module.exports = { bookLoader, bookShelfLoader, authorLoader };

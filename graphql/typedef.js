@@ -4,11 +4,17 @@ const typeDefs = gql`
    type BookPurchase {
       _id: ID!
       title: String!
-      author: String!
+      author: Author
       price: Int!
       genre: String!
       isUsed: Boolean!
    }
+   type Author {
+      _id: ID
+      firstname: String!
+      lastname: String!
+   }
+
    type BookShelves {
       _id: ID!
       name: String!
@@ -24,7 +30,7 @@ const typeDefs = gql`
 
    input BookInput {
       title: String!
-      author: String!
+      author: ID
       price: Int!
       genre: String!
       isUsed: Boolean!
@@ -34,12 +40,12 @@ const typeDefs = gql`
 
       createPurchase(
          title: String!
-         author: String!
+         author: ID!
          price: Int!
          genre: String!
          isUsed: Boolean!
       ): BookPurchase!
-
+      createAuthor(firstname: String, lastname: String): Author
       createManyPurchase(books: [BookInput]): [BookPurchase]!
 
       updatePurchase(

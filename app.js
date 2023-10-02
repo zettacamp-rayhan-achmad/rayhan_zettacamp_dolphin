@@ -88,7 +88,7 @@ mongoose
    });
 
 const secretKey = 'rahasia';
-
+mongoose.set('debug', true);
 const server = new ApolloServer({
    typeDefs,
    resolvers,
