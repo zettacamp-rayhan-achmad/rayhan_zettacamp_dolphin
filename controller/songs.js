@@ -32,11 +32,8 @@ exports.createNewSong = async (req, res) => {
 exports.getAllSong = async (req, res) => {
    try {
       const getSongs = await songs.find();
-      res.status(201).json({
-         status: 'create success',
-         data: {
-            songs: getSongs,
-         },
+      res.status(200).json({
+         data: getSongs,
       });
    } catch (err) {
       res.status(400).json({
@@ -96,6 +93,27 @@ exports.deleteSongById = async (req, res) => {
       } else {
          res.status(204).json({
             status: 'delete success',
+            data: null,
+         });
+      }
+   } catch (err) {
+      res.status(500).json({
+         status: 'error',
+         message: err.message,
+      });
+   }
+};
+exports.deleteAllSongs = async (req, res) => {
+   try {
+      const deleteSong = await songs.deleteMany({});
+      if (!deleteSong) {
+         res.status(404).json({
+            status: 'error',
+            message: 'song not found',
+         });
+      } else {
+         res.status(204).json({
+            status: 'delete all success',
             data: null,
          });
       }

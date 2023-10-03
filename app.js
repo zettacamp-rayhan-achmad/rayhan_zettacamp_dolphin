@@ -1,7 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { ApolloServer } = require('apollo-server-express');
+// const { applyMiddleware } = require('graphql-middleware');
+const typeDefs = require('./graphql/typedef');
+const resolvers = require('./graphql/resolvers');
+const jwt = require('jsonwebtoken');
+
 const app = express();
 app.use(express.json());
+
 const {
    createNewSong,
    getAllSong,
@@ -9,6 +16,7 @@ const {
    updateSong,
    deleteSongById,
    aggregateSong,
+   deleteAllSongs,
 } = require('./controller/songs');
 const {
    createNewPlaylist,
@@ -29,6 +37,7 @@ app.get('/getAllSong', getAllSong);
 app.get('/getSongById/:id', getSongById);
 app.patch('/updateSong/:id', updateSong);
 app.delete('/deleteSongById/:id', deleteSongById);
+app.delete('/deleteAllSongs', deleteAllSongs);
 
 // playlist
 app.post('/createNewPlaylist', createNewPlaylist);
@@ -54,7 +63,24 @@ mongoose
       console.error('error connecting to mongoDB', error);
    });
 
+const secretKey = 'rahasia';
+// mongoose.set('debug', true);
+const server = new ApolloServer({
+   typeDefs,
+   resolvers,
+   context: ({ req }) => {
+      try {
+         const token = req.headers.authorization || '';
+         const user = jwt.verify(token.replace('Bearer ', ''), secretKey);
+         return { user };
+      } catch (error) {
+         return 'there is error token', error;
+      }
+   },
+});
+
+server.applyMiddleware({ app });
 const port = 3000;
 app.listen(port, () => {
-   console.log(`App running on port ${port}..!`);
+   console.log(`http://localhost:${port}/graphql`);
 });
