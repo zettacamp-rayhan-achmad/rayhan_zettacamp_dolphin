@@ -4,11 +4,11 @@ const book = require('../model/books');
 exports.createBookShelves = async (req, res) => {
    try {
       const name = req.body.name;
-      const bookID = req.body.bookID;
+      const bookId = req.body.bookId;
 
       const newBookShelves = await bookShelves.create({
          name: name,
-         books: bookID,
+         books: bookId,
       });
       res.status(201).json({
          status: 'create success',
@@ -63,7 +63,7 @@ exports.getBookShelves = async (req, res) => {
          status: 'success',
          requestAt: req.requestTime,
          data: {
-            book_Shelves: bookShelvesData,
+            book_shelves: bookShelvesData,
          },
       });
    } catch (err) {
@@ -83,7 +83,7 @@ exports.getBookShelvesById = async (req, res) => {
          status: 'success',
          requestAt: req.requestTime,
          data: {
-            book_Shelves: bookShelvesData,
+            book_shelves: bookShelvesData,
          },
       });
    } catch (err) {
@@ -152,7 +152,7 @@ exports.getBasedId = async (req, res) => {
          status: 'success',
          requestAt: req.requestTime,
          data: {
-            book_Shelves: bookShelvesData,
+            book_shelves: bookShelvesData,
          },
       });
    } catch (err) {

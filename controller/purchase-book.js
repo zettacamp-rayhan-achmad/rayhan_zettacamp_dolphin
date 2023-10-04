@@ -1,12 +1,6 @@
 const PurchaseBook = require('../model/books');
 
-const {
-   determineCreditTerms,
-   purchaseBooks,
-   bookTitle,
-   processObject,
-   bookDetail,
-} = require('./../task');
+const { determineCreditTerms, purchaseBooks, bookTitle, processObject, bookDetail } = require('./../task');
 
 exports.purchaseBookWithTerms = async (req, res) => {
    try {
@@ -20,24 +14,14 @@ exports.purchaseBookWithTerms = async (req, res) => {
       let additionalPriceTermAtMonth = req.body.additionalPriceTermAtMonth;
       const additionalPrice = req.body.additionalPrice;
 
-      const newBook = await purchaseBooks(
-         books,
-         discount,
-         tax,
-         amountStock,
-         purchasedBook,
-         terms
-      );
+      const newBook = await purchaseBooks(books, discount, tax, amountStock, purchasedBook, terms);
 
       additionalPriceTermAtMonth -= 1;
 
       const totalPrice = newBook.totalPrice;
       let credit = await determineCreditTerms(totalPrice, terms);
 
-      if (
-         terms > additionalPriceTermAtMonth &&
-         additionalPriceTermAtMonth >= 0
-      ) {
+      if (terms > additionalPriceTermAtMonth && additionalPriceTermAtMonth >= 0) {
          credit.creditTerms[additionalPriceTermAtMonth].pay += additionalPrice;
          credit.totalPayment += additionalPrice;
          credit.payment[additionalPriceTermAtMonth] += additionalPrice;
@@ -84,12 +68,9 @@ exports.purchaseBookWithTerms = async (req, res) => {
             const term = listTerms[key];
             payValues.push(term.pay);
          }
-         const payValuesReduce = payValues.reduce(
-            (accumulator, currentValue) => {
-               return accumulator + currentValue;
-            },
-            0
-         );
+         const payValuesReduce = payValues.reduce((accumulator, currentValue) => {
+            return accumulator + currentValue;
+         }, 0);
          const rewritePay = credit.paymentDecimal - payValuesReduce;
          bookPurchaseMapObject[lastKey].pay = Math.ceil(rewritePay);
 
@@ -189,14 +170,10 @@ exports.createPurchase = async (req, res) => {
 };
 exports.updatePurchase = async (req, res) => {
    try {
-      const purchaseUpdate = await PurchaseBook.findByIdAndUpdate(
-         req.params.id,
-         req.body,
-         {
-            new: true,
-            runValidators: true,
-         }
-      );
+      const purchaseUpdate = await PurchaseBook.findByIdAndUpdate(req.params.id, req.body, {
+         new: true,
+         runValidators: true,
+      });
       res.status(200).json({
          status: 'update success',
          data: {
@@ -212,9 +189,7 @@ exports.updatePurchase = async (req, res) => {
 };
 exports.deletePurchaseById = async (req, res) => {
    try {
-      const deletedPurchase = await PurchaseBook.findByIdAndDelete(
-         req.params.id
-      );
+      const deletedPurchase = await PurchaseBook.findByIdAndDelete(req.params.id);
       if (!deletedPurchase) {
          res.status(404).json({
             status: 'error',

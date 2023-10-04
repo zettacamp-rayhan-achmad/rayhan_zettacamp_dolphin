@@ -13,22 +13,20 @@ const batchLoadBook = async (keys) => {
 };
 
 const batchLoadBookshelf = async (keys) => {
-   const documents = await bookShelves
-      .find({ _id: { $in: keys } })
-      .populate('books');
-   const documentMap = {};
-   documents.forEach((doc) => {
-      documentMap[doc._id.toString()] = doc;
+   const bookShelf = await bookShelves.find({ _id: { $in: keys } }).populate('books');
+   const bookShelfMap = {};
+   bookShelf.forEach((doc) => {
+      bookShelfMap[doc._id.toString()] = doc;
    });
-   return keys.map((key) => documentMap[key.toString()]);
+   return keys.map((key) => bookShelfMap[key.toString()]);
 };
 const batchLoadAuthor = async (keys) => {
-   const documents = await author.find({ _id: { $in: keys } });
-   const documentMap = {};
-   documents.forEach((doc) => {
-      documentMap[doc._id.toString()] = doc;
+   const authors = await author.find({ _id: { $in: keys } });
+   const authorMap = {};
+   authors.forEach((doc) => {
+      authorMap[doc._id.toString()] = doc;
    });
-   return keys.map((key) => documentMap[key.toString()]);
+   return keys.map((key) => authorMap[key.toString()]);
 };
 
 const bookLoader = new DataLoader(batchLoadBook);

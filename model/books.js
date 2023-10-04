@@ -18,7 +18,7 @@ const bookSchema = new mongoose.Schema({
       type: String,
       required: true,
    },
-   isUsed: {
+   is_used: {
       type: Boolean,
       default: true,
    },

@@ -88,7 +88,7 @@ mongoose
    });
 
 const secretKey = 'rahasia';
-mongoose.set('debug', true);
+// mongoose.set('debug', true);
 const server = new ApolloServer({
    typeDefs,
    resolvers,
@@ -98,7 +98,7 @@ const server = new ApolloServer({
          const user = jwt.verify(token.replace('Bearer ', ''), secretKey);
          return { user };
       } catch (error) {
-         return 'ada error token', error;
+         return 'authorization error', error;
       }
    },
 });

@@ -3,17 +3,26 @@
 **Position:** Back-End
 
 
-### DataLoader explain
-DataLoader is a tool used in application development that uses GraphQL to optimize data retrieval from storage such as databases or external APIs. This helps in overcoming the “N+1” problem that often arises in data retrieval when using GraphQL.
-The "N+1" problem occurs when you have a GraphQL query that requests a parent data set along with associated child data.
+### Sanity Check explain
+sanity check merupakan serangkaian pemeriksaan atau validasi yang dilakukan untuk memastikan bahwa data, kondisi, atau operasi berjalan sesuai dengan harapan atau tidak menyebabkan masalah yang serius.
 
-Batching: DataLoader collects similar data requests into a single batch so we can fetch multiple data in one request to the data store.
+*tujuan sanity check*
+ a. mencegah kesalahan
+ b. mengamankan aplikasi
+ c. menjaga konsistensi data
+ d. meningkatkan performa
 
-Caching: DataLoader also provides simple caching, which means if you request the same data more than once in the same request
+*penerapan sanity check*
+ a. input validation
+ b. operasi validasi
+ c. otentikasi
+ d. ketersediaan sistem
+ e. loging dan monitoring
 
-DataLoader adalah alat yang digunakan dalam pengembangan aplikasi yang menggunakan GraphQL untuk mengoptimalkan pengambilan data dari penyimpanan seperti database atau API eksternal. Hal ini membantu dalam mengatasi masalah “N+1” yang sering muncul dalam pengambilan data saat menggunakan GraphQL.
-Masalah "N+1" terjadi ketika Anda memiliki kueri GraphQL yang meminta kumpulan data induk bersama dengan data anak terkait.
 
-Batching: DataLoader mengumpulkan permintaan data serupa ke dalam satu batch sehingga Anda dapat mengambil banyak data dalam satu permintaan ke penyimpanan data.
+### ES Lint Explain
+ ES Lint dirancang untuk menganalisis kode JavaScript dan memberikan umpan balik tentang kesalahan gaya kode.
 
-Caching: DataLoader juga menyediakan caching sederhana, artinya jika Anda meminta data yang sama lebih dari sekali dalam permintaan yang sama.
+### Prettier Explain
+alat otomatisasi pemformatan kode yang dirancang untuk membuat kode kita tetap konsisten dan mudah dibaca dengan secara otomatis memformat kode kita sesuai dengan pedoman dan aturan tertentu
+

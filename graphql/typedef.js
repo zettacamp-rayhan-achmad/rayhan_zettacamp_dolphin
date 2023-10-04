@@ -7,12 +7,12 @@ const typeDefs = gql`
       author: Author
       price: Int!
       genre: String!
-      isUsed: Boolean!
+      is_used: Boolean!
    }
    type Author {
-      _id: ID
-      firstname: String!
-      lastname: String!
+      _id: ID!
+      first_name: String!
+      last_name: String!
    }
 
    type BookShelves {
@@ -22,10 +22,11 @@ const typeDefs = gql`
    }
 
    type Query {
-      getAllBook: [BookPurchase]!
-      getBook(_id: ID!): BookPurchase!
-      getBookShelves(id: ID!): BookShelves!
-      getAllBookShelf: [BookShelves]!
+      getAllBookPurchase: [BookPurchase]!
+      getOneBookPurchase(_id: ID!): BookPurchase!
+      getAllBookShelves: [BookShelves]!
+      getOneBookShelves(id: ID!): BookShelves!
+      getAllAuthor: [Author]!
    }
 
    input BookInput {
@@ -33,34 +34,22 @@ const typeDefs = gql`
       author: ID
       price: Int!
       genre: String!
-      isUsed: Boolean!
+      is_used: Boolean!
    }
    type Mutation {
       login: String
 
-      createPurchase(
-         title: String!
-         author: ID!
-         price: Int!
-         genre: String!
-         isUsed: Boolean!
-      ): BookPurchase!
-      createAuthor(firstname: String, lastname: String): Author
+      createOnePurchase(title: String!, author: ID!, price: Int!, genre: String!, is_used: Boolean!): BookPurchase!
       createManyPurchase(books: [BookInput]): [BookPurchase]!
+      createAuthor(first_name: String, last_name: String): Author
 
-      updatePurchase(
-         _id: ID!
-         title: String
-         author: String
-         price: Int
-         genre: String
-         isUsed: Boolean
-      ): BookPurchase!
+      updatePurchase(_id: ID!, title: String, author: String, price: Int, genre: String, is_used: Boolean): BookPurchase!
 
-      deletePurchase(_id: ID!): Boolean!
-      deleteAll: Boolean!
+      deleteOnePurchase(_id: ID!): Boolean!
+      deleteAllPurchase: Boolean!
+      deleteAuthor: Boolean!
 
-      createBookshelf(name: String!, books: [ID]): BookShelves!
+      createBookShelves(name: String!, books: [ID]): BookShelves!
    }
 `;
 

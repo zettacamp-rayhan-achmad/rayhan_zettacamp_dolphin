@@ -9,39 +9,50 @@ const secretKey = 'rahasia';
 
 module.exports = {
    Query: {
-      getAllBook: async (_, __, context) => {
+      getAllBookPurchase: async (_, __, context) => {
+         console.log(context);
          if (!context.user) {
-            throw new AuthenticationError('you must log in to access the data');
+            throw new AuthenticationError('Unauthenticated user');
          }
-         const book = await purchaseBook.find();
-         return book;
+         const books = await purchaseBook.find();
+         if (books.length === 0) {
+            throw new Error('no books purchases');
+         }
+         return books;
       },
-      getBook: async (_, args, context) => {
+      getOneBookPurchase: async (_, args, context) => {
          if (!context.user) {
-            throw new AuthenticationError('you must log in to access the data');
+            throw new AuthenticationError('Unauthenticated user');
          }
          const book = await purchaseBook.findById(args._id);
+         if (!book) {
+            throw new Error('book not found');
+         }
          return book;
       },
       // Using DataLoader
-      getBookShelves: async (_, { id }, context) => {
+      getOneBookShelves: async (_, { id }, context) => {
          if (!context.user) {
-            throw new AuthenticationError(
-               'you must log in to access the bookshelf'
-            );
+            throw new AuthenticationError('you must log in to access the bookshelf');
          }
          return bookShelfLoader.load(id);
       },
-      getAllBookShelf: async (_, __, context) => {
+      getAllBookShelves: async (_, __, context) => {
          if (!context.user) {
-            throw new AuthenticationError(
-               'you must log in to access the bookshelf'
-            );
+            throw new AuthenticationError('you must log in to access the bookshelf');
          }
          const allBookShelf = await bookShelves.find({}, '_id');
-         return bookShelfLoader.loadMany(
-            allBookShelf.map((bookshelf) => bookshelf._id)
-         );
+         if (!allBookShelf) {
+            throw new Error('empty book shelves');
+         }
+         return bookShelfLoader.loadMany(allBookShelf.map((bookshelf) => bookshelf._id));
+      },
+      getAllAuthor: async (_, __, context) => {
+         if (!context.user) {
+            throw new AuthenticationError('Unauthenticated user');
+         }
+         const authors = await author.find();
+         return authors;
       },
    },
    Mutation: {
@@ -51,64 +62,80 @@ module.exports = {
       },
       createAuthor: async (_, args, context) => {
          if (!context.user) {
-            throw new AuthenticationError('you must log in to access the data');
+            throw new AuthenticationError('Unauthenticated user');
          }
-         const book = await author.create(args);
-         return book;
+         const authors = await author.create(args);
+         return authors;
       },
-      createPurchase: async (_, args, context) => {
+      createOnePurchase: async (_, args, context) => {
          if (!context.user) {
-            throw new AuthenticationError('you must log in to access the data');
+            throw new AuthenticationError('Unauthenticated user');
          }
-         const book = await purchaseBook.create(args);
-         return book;
+         const createOneBook = await purchaseBook.create(args);
+         if (!createOneBook) {
+            throw new Error('create error');
+         }
+         return createOneBook;
       },
       createManyPurchase: async (_, { books }, context) => {
          if (!context.user) {
-            throw new AuthenticationError('you must log in to access the data');
+            throw new AuthenticationError('Unauthenticated user');
          }
-         const book = await purchaseBook.insertMany(books);
-         return book;
+         const insertBook = await purchaseBook.insertMany(books);
+         if (!insertBook) {
+            throw new Error('create error');
+         }
+         return insertBook;
       },
       updatePurchase: async (_, args, context) => {
          if (!context.user) {
-            throw new AuthenticationError('you must log in to access the data');
+            throw new AuthenticationError('Unauthenticated user');
          }
-         const book = await purchaseBook.findByIdAndUpdate(args._id, args, {
+         const updateBook = await purchaseBook.findByIdAndUpdate(args._id, args, {
             new: true,
          });
-         return book;
+         if (!updateBook) {
+            throw new Error('book not found');
+         }
+         return updateBook;
       },
-      deletePurchase: async (_, args, context) => {
+      deleteOnePurchase: async (_, args, context) => {
          if (!context.user) {
-            throw new AuthenticationError('you must log in to access the data');
+            throw new AuthenticationError('Unauthenticated user');
          }
          const book = await purchaseBook.findByIdAndDelete(args._id);
          if (book) return true;
          else return false;
       },
-      deleteAll: async (_, __, context) => {
+      deleteAllPurchase: async (_, __, context) => {
          if (!context.user) {
-            throw new AuthenticationError('you must log in to access the data');
+            throw new AuthenticationError('Unauthenticated user');
          }
          const book = await purchaseBook.deleteMany({});
          if (book) return true;
-         else return false;
       },
-      createBookshelf: async (_, args, context) => {
+      deleteAuthor: async (_, __, context) => {
          if (!context.user) {
-            throw new AuthenticationError('you must log in to access the data');
+            throw new AuthenticationError('Unauthenticated user');
          }
-         const bookshelf = await bookShelves.create(args);
-         return bookshelf;
+         const authors = await author.deleteMany({});
+         if (authors) return true;
+      },
+      createBookShelves: async (_, args, context) => {
+         if (!context.user) {
+            throw new AuthenticationError('Unauthenticated user');
+         }
+         const createBookshelf = await bookShelves.create(args);
+         if (!createBookshelf) {
+            throw new Error('create failed');
+         }
+         return createBookshelf;
       },
    },
    BookPurchase: {
       author: async (parent, __, context) => {
          if (!context.user) {
-            throw new AuthenticationError(
-               'you must log in to access the bookshelf'
-            );
+            throw new AuthenticationError('you must log in to access the bookshelf');
          }
          return authorLoader.load(parent.author);
       },
