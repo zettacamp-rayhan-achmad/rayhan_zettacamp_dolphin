@@ -1,7 +1,7 @@
 const bookShelves = require('../model/book-shelves');
 const purchaseBook = require('./../model/books');
 const author = require('./../model/author');
-const { bookLoader, bookShelfLoader, authorLoader } = require('./dataloader');
+const { bookShelfLoader, authorLoader } = require('./dataloader');
 const { AuthenticationError } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 
@@ -103,6 +103,7 @@ module.exports = {
          if (!context.user) {
             throw new AuthenticationError('Unauthenticated user');
          }
+
          const book = await purchaseBook.findByIdAndDelete(args._id);
          if (book) return true;
          else return false;
@@ -130,6 +131,18 @@ module.exports = {
             throw new Error('create failed');
          }
          return createBookshelf;
+      },
+      updateBookShelves: async (_, args, context) => {
+         if (!context.user) {
+            throw new AuthenticationError('Unauthenticated user');
+         }
+         const updateBookShelves = await bookShelves.findByIdAndUpdate(args._id, args, {
+            new: true,
+         });
+         if (!updateBookShelves) {
+            throw new Error('book not found');
+         }
+         return updateBookShelves;
       },
    },
    BookPurchase: {

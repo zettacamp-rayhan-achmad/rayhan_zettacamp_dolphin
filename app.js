@@ -8,7 +8,6 @@ const jwt = require('jsonwebtoken');
 const app = express();
 
 app.use(express.json());
-const fs = require('fs');
 const {
    aggregate,
    unwind,
@@ -19,7 +18,6 @@ const {
    updateBookShelvesById,
    deleteBookShelvesById,
    getBasedId,
-   updateBook,
    updateBookArrayFilter,
    getDistinctGenre,
    aggregation,

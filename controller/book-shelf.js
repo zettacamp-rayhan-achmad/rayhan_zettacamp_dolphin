@@ -26,14 +26,10 @@ exports.createBookShelves = async (req, res) => {
 exports.addBookShelves = async (req, res) => {
    try {
       const bookShelvesId = req.body.bookShelvesId;
-      const bookID = req.body.bookID;
+      const bookId = req.body.bookId;
 
-      const addBookShelves = await bookShelves
-         .findByIdAndUpdate(
-            bookShelvesId,
-            { $addToSet: { books: bookID } },
-            { new: true }
-         )
+      await bookShelves
+         .findByIdAndUpdate(bookShelvesId, { $addToSet: { books: bookId } }, { new: true })
          .populate('books')
          .exec()
          .then((addBookShelves) => {
@@ -76,9 +72,7 @@ exports.getBookShelves = async (req, res) => {
 exports.getBookShelvesById = async (req, res) => {
    try {
       const bookId = req.body.bookId;
-      const bookShelvesData = await bookShelves
-         .find({ books: bookId })
-         .populate('books');
+      const bookShelvesData = await bookShelves.find({ books: bookId }).populate('books');
       res.status(200).json({
          status: 'success',
          requestAt: req.requestTime,
@@ -95,14 +89,10 @@ exports.getBookShelvesById = async (req, res) => {
 };
 exports.updateBookShelvesById = async (req, res) => {
    try {
-      const shelvesUpdate = await bookShelves.findByIdAndUpdate(
-         req.params.id,
-         req.body,
-         {
-            new: true,
-            runValidators: true,
-         }
-      );
+      const shelvesUpdate = await bookShelves.findByIdAndUpdate(req.params.id, req.body, {
+         new: true,
+         runValidators: true,
+      });
       res.status(200).json({
          status: 'update success',
          book_shelves: shelvesUpdate,
@@ -167,7 +157,6 @@ exports.updateBookArrayFilter = async (req, res) => {
       const shelfId = req.body.shelfId;
       const bookId = req.body.bookId;
       const newId = req.body.newId;
-      const title = req.body.title;
       const shelvesUpdate = await bookShelves.updateOne(
          { _id: shelfId },
          {
@@ -192,7 +181,7 @@ exports.updateBookArrayFilter = async (req, res) => {
 };
 exports.getDistinctGenre = async (req, res) => {
    try {
-      const bookShelvesData = await PurchaseBook.distinct('genre');
+      const bookShelvesData = await book.distinct('genre');
       res.status(200).json({
          status: 'success',
          data: {

@@ -50,6 +50,7 @@ const typeDefs = gql`
       deleteAuthor: Boolean!
 
       createBookShelves(name: String!, books: [ID]): BookShelves!
+      updateBookShelves(_id: ID!, name: String): BookShelves!
    }
 `;
 
