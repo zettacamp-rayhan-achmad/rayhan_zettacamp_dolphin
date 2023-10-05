@@ -10,7 +10,7 @@ function displayDateTime(dateString, dateTimeObject) {
     console.log('2. from parameter string:', parsedDateTimeFromString.format('YYYY-MM-DD HH:mm:ss'));
 
     // 3. Display the date and time from object
-    console.log('3. from parameter object:', dateTimeObject.format('YYYY-MM-DD HH:mm:ss'));
+    console.log('3. from parameter object', dateTimeObject.format('YYYY-MM-DD HH:mm:ss'));
 
     // 4. Display the current date and time in UTC
     const currentUtcDateTime = moment.utc();
@@ -29,7 +29,13 @@ function displayDateTime(dateString, dateTimeObject) {
     }
 }
 
-// Example usage:
-const dateString = '2000-30-01';
-const dateTimeObject = moment({ y: 2023, M: 10 - 1, d: 10, h: 15, m: 12, s: 12, ms: 123 });
+const dateString = '2000-12-01';
+const dateTimeObject = moment({
+    year: 2023,
+    month: 10 - 1,
+    day: 12,
+    hour: 15,
+    minute: 33,
+    second: 12,
+});
 displayDateTime(dateString, dateTimeObject);
