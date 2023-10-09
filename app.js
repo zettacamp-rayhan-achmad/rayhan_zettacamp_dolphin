@@ -1,23 +1,32 @@
 const moment = require('moment');
 
-function displayDateTime(dateString) {
-    const plusTwoHours = moment(dateString, 'YYYY-MM-DD HH:mm:ss').add(2, 'hours');
-    console.log('a. +2 hours:', plusTwoHours.format('DD-MM-YYYY HH:mm:ss'));
+function displayDateTime(firstDate, secondDate) {
+    // 1
+    const indonesianTimes = moment(firstDate);
+    if (!indonesianTimes.isValid()) {
+        return 'Invalid date';
+    }
+    const westIndonesianTimes = moment(indonesianTimes, 'DD-MM-YYYY HH:mm:ss').utcOffset(7 * 60);
+    westIndonesianTimes.locale('id');
+    console.log(westIndonesianTimes);
+    console.log(westIndonesianTimes.format('dddd, DD MMMM YYYY [WIB] [UTC+7]'));
 
-    const plusFiveDay = moment(dateString, 'YYYY-MM-DD HH:mm:ss').add(5, 'days');
-    console.log('b. +5 days:', plusFiveDay.format('DD-MM-YYYY HH:mm:ss'));
+    // 2
+    const firstDateMoment = moment(firstDate);
+    const secondDateMoment = moment(secondDate);
+    const differentiation = secondDateMoment.diff(firstDateMoment, 'week');
+    console.log('difference', differentiation, 'weeks');
 
-    const plusOneWeek = moment(dateString, 'YYYY-MM-DD HH:mm:ss').add(1, 'weeks');
-    console.log('c. +1 week:', plusOneWeek.format('DD-MM-YYYY HH:mm:ss'));
+    // 3
+    const sameOrAfter = moment(firstDate).isSameOrAfter(secondDate);
+    console.log('is same or after: ', sameOrAfter);
 
-    const minFiveDay = moment(dateString, 'YYYY-MM-DD HH:mm:ss').subtract(5, 'days');
-    console.log('d. -5 days:', minFiveDay.format('DD-MM-YYYY HH:mm:ss'));
-
-    const startOfWeek = moment(dateString, 'YYYY-MM-DD HH:mm:ss').startOf('week');
-    const endOfMonth = moment(dateString, 'YYYY-MM-DD HH:mm:ss').endOf('month');
-    console.log('e. start of week:', startOfWeek.format('DD-MM-YYYY HH:mm:ss'));
-    console.log('f. end of month:', endOfMonth.format('DD-MM-YYYY HH:mm:ss'));
+    // 4
+    const currentDate = moment().format('YYYY-MM-DD');
+    const between = moment(currentDate).isBetween(firstDate, secondDate, undefined, '()');
+    console.log('is between: ', between);
 }
 
-const dateString = '2023-10-06';
-displayDateTime(dateString);
+const firstDate = '2023-10-09';
+const secondDate = '2023-11-09';
+displayDateTime(firstDate, secondDate);
