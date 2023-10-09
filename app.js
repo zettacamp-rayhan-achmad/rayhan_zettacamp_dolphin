@@ -1,41 +1,23 @@
 const moment = require('moment');
 
-function displayDateTime(dateString, dateTimeObject) {
-    // 1. Display the current date and time
-    const currentDateTime = moment();
-    console.log('1. Current date & time:', currentDateTime.format('YYYY-MM-DD HH:mm:ss'));
+function displayDateTime(dateString) {
+    const plusTwoHours = moment(dateString, 'YYYY-MM-DD HH:mm:ss').add(2, 'hours');
+    console.log('a. +2 hours:', plusTwoHours.format('DD-MM-YYYY HH:mm:ss'));
 
-    // 2. Display the date and time parsed from string
-    const parsedDateTimeFromString = moment(dateString);
-    console.log('2. from parameter string:', parsedDateTimeFromString.format('YYYY-MM-DD HH:mm:ss'));
+    const plusFiveDay = moment(dateString, 'YYYY-MM-DD HH:mm:ss').add(5, 'days');
+    console.log('b. +5 days:', plusFiveDay.format('DD-MM-YYYY HH:mm:ss'));
 
-    // 3. Display the date and time from object
-    console.log('3. from parameter object', dateTimeObject.format('YYYY-MM-DD HH:mm:ss'));
+    const plusOneWeek = moment(dateString, 'YYYY-MM-DD HH:mm:ss').add(1, 'weeks');
+    console.log('c. +1 week:', plusOneWeek.format('DD-MM-YYYY HH:mm:ss'));
 
-    // 4. Display the current date and time in UTC
-    const currentUtcDateTime = moment.utc();
-    console.log('4. Current date & time on UTC:', currentUtcDateTime.format('YYYY-MM-DD HH:mm:ss'));
+    const minFiveDay = moment(dateString, 'YYYY-MM-DD HH:mm:ss').subtract(5, 'days');
+    console.log('d. -5 days:', minFiveDay.format('DD-MM-YYYY HH:mm:ss'));
 
-    // 5. Validate the provided date string
-    const isValidDate = parsedDateTimeFromString.isValid();
-    const invalidAt = parsedDateTimeFromString.invalidAt();
-
-    if (isValidDate === false) {
-        console.log('5. Result of validation:', isValidDate, 'invalid at', invalidAt);
-        console.log('please input the valid date string');
-    } else {
-        console.log('5. Result of validation:', isValidDate);
-        console.log('date of string is valid');
-    }
+    const startOfWeek = moment(dateString, 'YYYY-MM-DD HH:mm:ss').startOf('week');
+    const endOfMonth = moment(dateString, 'YYYY-MM-DD HH:mm:ss').endOf('month');
+    console.log('e. start of week:', startOfWeek.format('DD-MM-YYYY HH:mm:ss'));
+    console.log('f. end of month:', endOfMonth.format('DD-MM-YYYY HH:mm:ss'));
 }
 
-const dateString = '2000-12-01';
-const dateTimeObject = moment({
-    year: 2023,
-    month: 10 - 1,
-    day: 12,
-    hour: 15,
-    minute: 33,
-    second: 12,
-});
-displayDateTime(dateString, dateTimeObject);
+const dateString = '2023-10-06';
+displayDateTime(dateString);
