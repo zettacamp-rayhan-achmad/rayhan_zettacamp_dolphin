@@ -28,6 +28,39 @@ const typeDefs = gql`
         start_time: String
         end_time: String
     }
+    type SonglistType {
+        title: String
+        artist: String
+        album: String
+        genre: String
+        duration: String
+    }
+    type SongPlaylistType {
+        playlist_name: String
+        description: String
+        songlist: [SonglistType]
+        creator: String
+        total_favorite: Int
+    }
+    type WebhookResponse {
+        status: String
+        message: String
+        response: [SongPlaylistType]
+    }
+    input Songlist {
+        title: String
+        artist: String
+        album: String
+        genre: String
+        duration: String
+    }
+    input SongPlaylist {
+        playlist_name: String
+        description: String
+        songlist: [Songlist]
+        creator: String
+        total_favorite: Int
+    }
     type Query {
         getPlaylistArtist: [PlaylistResponse]
         getPlaylistGenre: [PlaylistResponse]
@@ -51,6 +84,7 @@ const typeDefs = gql`
         deletePlaylist(_id: ID!): Boolean!
         deleteAll: Boolean!
         deleteUser(_id: ID!): Boolean!
+        sendDataToWebhook(data: [SongPlaylist]): WebhookResponse
     }
 `;
 module.exports = typeDefs;

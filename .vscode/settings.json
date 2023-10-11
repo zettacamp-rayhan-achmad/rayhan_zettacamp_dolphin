@@ -1,0 +1,8 @@
+{
+  "npm.enableRunFromFolder": false,
+  "terminal.integrated.tabs.defaultIcon": "github",
+  "C_Cpp.files.exclude": {
+    "**/.vscode": true,
+    "**/.vs": true
+  }
+}

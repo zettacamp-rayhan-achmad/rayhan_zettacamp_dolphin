@@ -6,7 +6,8 @@ const playlistLoad = require('./dataloader');
 const { AuthenticationError } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
-const playlist = require('./../model/playlist-model');
+const fetch = require('node-fetch');
+// const playlist = require('./../model/playlist-model');
 
 const secretKey = 'rahasia';
 
@@ -329,6 +330,31 @@ module.exports = {
             const song = await songModel.findByIdAndDelete(args._id);
             if (song) return true;
             else return false;
+        },
+        sendDataToWebhook: async (_, { data }) => {
+            try {
+                const webhook_url = 'https://webhook.site/0ac9f3de-03b2-44a2-a888-caf96304e801';
+                const response = await fetch(webhook_url, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const responseData = await response.json();
+                if (!response.ok) {
+                    console.error(`Request failed with status: ${response.status}`);
+                    throw new Error('Failed to send data to webhook.site');
+                }
+                return {
+                    status: 'Success',
+                    message: 'Data sent to webhook.site',
+                    response: responseData,
+                };
+            } catch (error) {
+                console.error('Error sending data to webhook:', error);
+                throw new Error('Failed to send data to webhook.site');
+            }
         },
     },
 };
