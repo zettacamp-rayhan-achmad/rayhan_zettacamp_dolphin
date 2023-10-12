@@ -9,7 +9,17 @@ const jwt = require('jsonwebtoken');
 const app = express();
 app.use(express.json());
 
-const { createNewSong, getAllSong, getSongById, updateSong, deleteSongById, aggregateSong, deleteAllSongs } = require('./controller/songs');
+const {
+    createNewSong,
+    getAllSong,
+    getSongById,
+    updateSong,
+    deleteSongById,
+    aggregateSong,
+    deleteAllSongs,
+    updateWebhookSongs,
+    verifyToken,
+} = require('./controller/songs');
 const {
     createNewPlaylist,
     updatePlaylist,
@@ -30,6 +40,7 @@ app.get('/getSongById/:id', getSongById);
 app.patch('/updateSong/:id', updateSong);
 app.delete('/deleteSongById/:id', deleteSongById);
 app.delete('/deleteAllSongs', deleteAllSongs);
+app.post('/updateWebhookSongs/:id', verifyToken, updateWebhookSongs);
 
 // playlist
 app.post('/createNewPlaylist', createNewPlaylist);
