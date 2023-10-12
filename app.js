@@ -19,6 +19,7 @@ const {
     deleteAllSongs,
     updateWebhookSongs,
     verifyToken,
+    generateToken,
 } = require('./controller/songs');
 const {
     createNewPlaylist,
@@ -41,6 +42,7 @@ app.patch('/updateSong/:id', updateSong);
 app.delete('/deleteSongById/:id', deleteSongById);
 app.delete('/deleteAllSongs', deleteAllSongs);
 app.post('/updateWebhookSongs/:id', verifyToken, updateWebhookSongs);
+app.post('/generateToken', generateToken);
 
 // playlist
 app.post('/createNewPlaylist', createNewPlaylist);

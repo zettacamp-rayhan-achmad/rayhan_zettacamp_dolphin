@@ -1,6 +1,8 @@
 const songs = require('./../model/songs-model');
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const userAccount = require('./../model/user');
 
 const secretKey = 'rahasia';
 // songs
@@ -198,57 +200,65 @@ exports.aggregateSong = async (req, res) => {
 };
 
 // library day 6
-// exports.generateToken = async (req, res) => {
-//     try {
-//         const user = await user.findOne(req.body.username);
-//         if (!user) {
-//             res.status(500).json({
-
-//             })
-//         }
-//         const passwordMatch = await bcrypt.compare(req.body.password, user.password);
-//         if (!passwordMatch) {
-//             throw new Error('Incorrect password');
-//         }
-//         const accessToken = jwt.sign(user, secretKey, {
-//             expiresIn: '1h',
-//         });
-//         res.json({ accessToken: accessToken });
-//         return { user, accessToken };
-//     } catch (error) {
-
-//     }
-// };
+exports.generateToken = async (req, res) => {
+    try {
+        const username = req.body.username;
+        const users = {
+            name: username,
+        };
+        const user = await userAccount.findOne({ username: req.body.username });
+        if (!user) {
+            res.status(500).json({
+                message: 'user not found',
+            });
+        }
+        const passwordMatch = await bcrypt.compare(req.body.password, user.password);
+        if (!passwordMatch) {
+            throw new Error('Incorrect password');
+        }
+        const accessToken = jwt.sign(users, secretKey, {
+            expiresIn: '1h',
+        });
+        console.log('check');
+        res.json({ accessToken: accessToken });
+        return { user, accessToken };
+    } catch (error) {
+        res.status(400).json({
+            message: error.message,
+        });
+    }
+};
 exports.verifyToken = async (req, res, next) => {
     try {
-        const authHeader = req.headers['authorization'];
+        const authHeader = req.headers.authorization;
         const token = authHeader && authHeader.split(' ')[1];
 
         if (!token) {
-            return res.status(401).json({ error: 'Unauthorized' });
+            throw new Error('token not found');
         }
         jwt.verify(token, secretKey, (err) => {
             if (err) {
-                return res.status(200).json({
-                    message: 'error token verify',
-                });
+                throw new Error('failed verify token');
             }
             next();
         });
     } catch (err) {
-        console.log(err.message);
-        res.status(400).json({
-            message: 'error',
+        res.json({
+            message: err.message,
         });
     }
 };
 exports.updateWebhookSongs = async (req, res) => {
     try {
+        const authHeader = req.headers.authorization;
         const apiUrl = 'https://webhook.site/0ac9f3de-03b2-44a2-a888-caf96304e801'; // Ganti dengan URL API target Anda
         const response = await fetch(apiUrl, {
             method: 'POST',
             body: JSON.stringify(req.body),
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: authHeader,
+            },
         });
 
         if (response.ok) {
