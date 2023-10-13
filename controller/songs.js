@@ -263,6 +263,7 @@ exports.updateWebhookSongs = async (req, res) => {
 
         if (response.ok) {
             const responseData = await response.json();
+            console.log(req.body, req.params);
             const updatedSong = await songs.findByIdAndUpdate(req.params.id, req.body, {
                 new: true,
                 runValidators: true,
