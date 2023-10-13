@@ -7,6 +7,7 @@ const { AuthenticationError } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const fetch = require('node-fetch');
+const songs = require('./../model/songs-model');
 // const playlist = require('./../model/playlist-model');
 
 const secretKey = 'rahasia';
@@ -234,6 +235,20 @@ module.exports = {
     },
 
     Mutation: {
+        playSong: async (_, { songId }) => {
+            try {
+                const song = await songs.findById(songId);
+                if (song) {
+                    song.played = true;
+                    await song.save();
+                    return 'Song played successfully';
+                } else {
+                    return 'Song not found';
+                }
+            } catch (error) {
+                return 'Internal Server Error';
+            }
+        },
         login: async (_, { username, password }) => {
             const user = await userModel.findOne({ username });
             if (!user) {

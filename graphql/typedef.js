@@ -7,6 +7,7 @@ const typeDefs = gql`
         artist: String!
         genre: String!
         duration: Int!
+        played: Boolean!
     }
     type Playlist {
         _id: ID!
@@ -62,6 +63,7 @@ const typeDefs = gql`
         total_favorite: Int
     }
     type Query {
+        cronjobSong: [Songs]
         getPlaylistArtist: [PlaylistResponse]
         getPlaylistGenre: [PlaylistResponse]
         getPlaylistRandom(time: Int!): PlaylistResponse
@@ -73,6 +75,7 @@ const typeDefs = gql`
         getUser: [User]!
     }
     type Mutation {
+        playSong(songId: ID!): String!
         login(username: String!, password: String!): LoginToken
         register(username: String, password: String): User
         createSong(title: String!, artist: String!, genre: String, duration: Int!): Songs!

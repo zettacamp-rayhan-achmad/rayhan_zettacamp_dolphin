@@ -5,6 +5,7 @@ const { ApolloServer } = require('apollo-server-express');
 const typeDefs = require('./graphql/typedef');
 const resolvers = require('./graphql/resolvers');
 const jwt = require('jsonwebtoken');
+const cron = require('cron');
 
 const app = express();
 app.use(express.json());
@@ -30,6 +31,7 @@ const {
     aggregatePlaylist,
     aggregatePlaylistPercobaan,
 } = require('./controller/playlist');
+const songs = require('./model/songs-model');
 
 const url = 'mongodb://127.0.0.1:27017/';
 const database = 'spotify';
@@ -85,6 +87,22 @@ const server = new ApolloServer({
 });
 
 server.applyMiddleware({ app });
+const playUnplayedSongJob = new cron.CronJob('*/5 * * * * *', async () => {
+    try {
+        const songToPlay = await songs.findOne({ played: false });
+        if (songToPlay) {
+            songToPlay.played = true;
+            await songToPlay.save();
+            console.log(`Playing song: ${songToPlay.title}`);
+        } else {
+            console.log('No unplayed songs available.');
+        }
+    } catch (error) {
+        console.error('Cron Job Error:', error);
+    }
+});
+
+playUnplayedSongJob.start();
 const port = 3000;
 app.listen(port, () => {
     console.log(`http://localhost:${port}/graphql`);
