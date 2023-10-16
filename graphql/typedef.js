@@ -79,7 +79,7 @@ const typeDefs = gql`
         login(username: String!, password: String!): LoginToken
         register(username: String, password: String): User
         createSong(title: String!, artist: String!, genre: String, duration: Int!): Songs!
-        updateSong(_id: ID, title: String, artist: String, genre: String, duration: Int): Songs!
+        updateSong(_id: ID, title: String, artist: String, genre: String, played: Boolean, duration: Int): Songs!
         deleteSong(_id: ID!): Boolean!
         createPlaylist(playlistTitle: String!): Playlist!
         addToPlaylist(_id: ID!, songs: ID!): Playlist!

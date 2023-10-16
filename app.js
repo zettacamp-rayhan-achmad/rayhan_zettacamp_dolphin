@@ -6,6 +6,7 @@ const typeDefs = require('./graphql/typedef');
 const resolvers = require('./graphql/resolvers');
 const jwt = require('jsonwebtoken');
 const cron = require('cron');
+const moment = require('moment');
 
 const app = express();
 app.use(express.json());
@@ -87,20 +88,30 @@ const server = new ApolloServer({
 });
 
 server.applyMiddleware({ app });
+const cronjobEnable = true;
 const playUnplayedSongJob = new cron.CronJob('*/5 * * * * *', async () => {
     try {
-        const songToPlay = await songs.findOne({ played: false });
-        if (songToPlay) {
-            songToPlay.played = true;
-            await songToPlay.save();
-            console.log(`Playing song: ${songToPlay.title}`);
+        if (cronjobEnable) {
+            getSong();
         } else {
-            console.log('No unplayed songs available.');
+            console.log('cronjob disable');
         }
     } catch (error) {
         console.error('Cron Job Error:', error);
     }
 });
+
+async function getSong() {
+    const time = moment().format('HH:mm:ss');
+    const songToPlay = await songs.findOne({ played: false });
+    if (songToPlay) {
+        songToPlay.played = true;
+        await songToPlay.save();
+        console.log(`${time} - Playing song: ${songToPlay.title}`);
+    } else {
+        console.log('No unplayed songs available.');
+    }
+}
 
 playUnplayedSongJob.start();
 const port = 3000;
